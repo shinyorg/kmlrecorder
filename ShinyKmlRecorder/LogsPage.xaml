@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shiny="clr-namespace:ShinyKmlRecorder"
+             xmlns:services="clr-namespace:ShinyKmlRecorder.Services"
+             x:DataType="shiny:LogsViewModel"
+             x:Class="ShinyKmlRecorder.LogsPage"
+             Title="Logs">
+
+    <ContentPage.Content>
+        <CollectionView ItemsSource="{Binding Logs}">
+            <CollectionView.EmptyView>
+                <Label Text="No logs available." 
+                       HorizontalOptions="Fill" 
+                       HorizontalTextAlignment="Center"
+                       VerticalOptions="Fill"
+                       VerticalTextAlignment="Center"/>
+            </CollectionView.EmptyView>
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="services:LogRecord">
+                    <Border Stroke="{StaticResource Gray300}"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="12"
+                            Margin="8,4">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+                              ColumnDefinitions="*,Auto">
+                            
+                            <!-- Event Type -->
+                            <Label Text="{Binding EventType}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="{StaticResource Primary}"
+                                   Grid.Row="0" Grid.Column="0"/>
+                            
+                            <!-- Timestamp -->
+                            <Label Text="{Binding Timestamp, StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Gray500}"
+                                   Grid.Row="1" Grid.Column="0"/>
+                            
+                            <!-- Foreground Status -->
+                            <Label Text="{Binding IsAppInForeground, StringFormat='Foreground: {0}'}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Gray500}"
+                                   Grid.Row="1" Grid.Column="1"/>
+                            
+                            <!-- GPS Coordinates -->
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="8">
+                                <Label Text="📍" FontSize="12"/>
+                                <Label Text="{Binding Latitude, StringFormat='Lat: {0:F6}'}" 
+                                       FontSize="12"/>
+                                <Label Text="{Binding Longitude, StringFormat='Lng: {0:F6}'}" 
+                                       FontSize="12"/>
+                                <Label Text="{Binding PositionAccuracy, StringFormat='Accuracy: {0:F2}m'}" 
+                                       FontSize="12"/>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Status Row -->
+                            <HorizontalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Spacing="16">
+                                <HorizontalStackLayout Spacing="4">
+                                    <Label Text="GPS:" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                                    <Label Text="{Binding GpsPermissions}" FontSize="12"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="4">
+                                    <Label Text="Network:" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                                    <Label Text="{Binding Connectivity}" FontSize="12"/>
+                                    <Label Text="{Binding ConnectivityType, StringFormat='({0})'}" FontSize="12"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="4">
+                                    <Label Text="🔋" FontSize="12"/>
+                                    <Label Text="{Binding BatteryStatus}" FontSize="12"/>
+                                    <Label Text="{Binding BatteryLevel, StringFormat='{0:P0}'}" FontSize="12"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                            
+                            <!-- Energy Saver Row -->
+                            <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Spacing="4">
+                                <Label Text="⚡" FontSize="12"/>
+                                <Label Text="{Binding IsEnergySaverOn, StringFormat='Energy Saver: {0}'}" FontSize="12"/>
+                            </HorizontalStackLayout>
+                            
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>    
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,101 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <BaseTargetFramework>net10.0</BaseTargetFramework>
+        <TargetFrameworks>$(TargetFrameworks);$(BaseTargetFramework)-ios</TargetFrameworks>
+        <TargetFrameworks>$(TargetFrameworks);$(BaseTargetFramework)-android</TargetFrameworks>
+        <TargetFrameworks Condition="'$(CI)' != 'true'">$(TargetFrameworks);$(BaseTargetFramework)</TargetFrameworks>
+        <RootNamespace>DriverBehaviour</RootNamespace>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <LangVersion>preview</LangVersion>
+        <ApplicationTitle>KML Recorderer</ApplicationTitle>
+        <ApplicationId>org.shiny.kmlrecord</ApplicationId>
+        <ApplicationIdGuid>123BAC51-DD7C-4E46-9EBF-BB851359A556</ApplicationIdGuid>
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
+
+        <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+
+        <MauiVersion>10.0.31</MauiVersion>
+        <ShinyVersion>4.0.0-beta-0095</ShinyVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
+        <OutputType>Library</OutputType>
+        <UseMaui>true</UseMaui>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' != '$(BaseTargetFramework)'">
+        <OutputType>Exe</OutputType>
+        <UseMaui>true</UseMaui>
+        <DefineConstants>$(DefineConstants);PLATFORM</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <DefineConstants>$(DefineConstants);PLATFORM</DefineConstants>
+        <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
+        <TargetPlatformVersion>36</TargetPlatformVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' AND '$(Configuration)' == 'Debug'">
+        <!--forces the simulator to pickup entitlements-->
+        <EnableCodeSigning>true</EnableCodeSigning>
+        <CodesignRequireProvisioningProfile>true</CodesignRequireProvisioningProfile>
+        <DisableCodesignVerification>true</DisableCodesignVerification>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <CodesignKey>iPhone Distribution</CodesignKey>
+        <MtouchInterpreter>-all</MtouchInterpreter>
+        <UseInterpreter>true</UseInterpreter>
+        <MtouchLink>SdkOnly</MtouchLink>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+        <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
+        <DefineConstants>$(DefineConstants);APPLE</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+        <TrimmerRootDescriptor Include="Linker.xml"/>
+        <BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy"/>
+        <CustomEntitlements Include="keychain-access-groups" Type="StringArray" Value="%24(AppIdentifierPrefix)$(ApplicationId)" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
+
+        <MauiImage Include="Resources\Images\*"/>
+        <MauiFont Include="Resources\Fonts\*"/>
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Shiny.Maui.Shell" Version="2.0.0"/>
+        <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
+        <PackageReference Include="Shiny.Extensions.DependencyInjection" Version="1.3.1"/>
+        <PackageReference Include="Shiny.Reflector" Version="1.7.1"/>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" Condition="'$(Configuration)' == 'DEBUG'"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="Sentry.Maui" Version="6.1.0"/>
+        <PackageReference Include="sqlite-net-pcl" Version="1.10.196-beta"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework.Contains('-android')) OR $(TargetFramework.Contains('-ios'))">
+        <PackageReference Include="Shiny.Hosting.Maui" Version="$(ShinyVersion)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ReflectorItem Include="SentryDsn"
+                       Value="$(SentryDsn)"
+                       Visible="false" />
+    </ItemGroup>
+</Project>

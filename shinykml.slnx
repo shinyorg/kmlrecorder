@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Solution/">
+    <File Path="readme.md" />
+  </Folder>
+  <Project Path="ShinyKmlRecorder\ShinyKmlRecorder.csproj" />
+</Solution>
