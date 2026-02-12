@@ -4,13 +4,13 @@
              xmlns:local="clr-namespace:ShinyKmlRecorder"
              x:DataType="local:MainViewModel"
              x:Class="ShinyKmlRecorder.MainPage"
-             Title="Driver Behaviour">
+             Title="KML Recorder">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="16">
             
             <!-- Header -->
-            <Label Text="Driver Status"
+            <Label Text="KML Recorder"
                    FontSize="28"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>

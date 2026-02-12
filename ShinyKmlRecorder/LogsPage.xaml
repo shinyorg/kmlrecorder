@@ -39,12 +39,6 @@
                                    TextColor="{StaticResource Gray500}"
                                    Grid.Row="1" Grid.Column="0"/>
                             
-                            <!-- Foreground Status -->
-                            <Label Text="{Binding IsAppInForeground, StringFormat='Foreground: {0}'}"
-                                   FontSize="12"
-                                   TextColor="{StaticResource Gray500}"
-                                   Grid.Row="1" Grid.Column="1"/>
-                            
                             <!-- GPS Coordinates -->
                             <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="8">
                                 <Label Text="📍" FontSize="12"/>
@@ -58,15 +52,6 @@
                             
                             <!-- Status Row -->
                             <HorizontalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Spacing="16">
-                                <HorizontalStackLayout Spacing="4">
-                                    <Label Text="GPS:" FontSize="12" TextColor="{StaticResource Gray500}"/>
-                                    <Label Text="{Binding GpsPermissions}" FontSize="12"/>
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout Spacing="4">
-                                    <Label Text="Network:" FontSize="12" TextColor="{StaticResource Gray500}"/>
-                                    <Label Text="{Binding Connectivity}" FontSize="12"/>
-                                    <Label Text="{Binding ConnectivityType, StringFormat='({0})'}" FontSize="12"/>
-                                </HorizontalStackLayout>
                                 <HorizontalStackLayout Spacing="4">
                                     <Label Text="🔋" FontSize="12"/>
                                     <Label Text="{Binding BatteryStatus}" FontSize="12"/>

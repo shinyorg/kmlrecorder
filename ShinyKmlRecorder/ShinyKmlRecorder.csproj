@@ -4,7 +4,6 @@
         <TargetFrameworks>$(TargetFrameworks);$(BaseTargetFramework)-ios</TargetFrameworks>
         <TargetFrameworks>$(TargetFrameworks);$(BaseTargetFramework)-android</TargetFrameworks>
         <TargetFrameworks Condition="'$(CI)' != 'true'">$(TargetFrameworks);$(BaseTargetFramework)</TargetFrameworks>
-        <RootNamespace>DriverBehaviour</RootNamespace>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
