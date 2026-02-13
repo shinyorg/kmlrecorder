@@ -3,8 +3,7 @@ namespace ShinyKmlRecorder;
 
 [ShellMap<LogsPage>]
 public partial class LogsViewModel(
-    BaseServices services, 
-    ILogger<LogsViewModel> logger
+    BaseServices services
 ) : ObservableObject, IPageLifecycleAware
 {
     public IList<LogRecord> Logs { get; private set; } = null!;

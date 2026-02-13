@@ -6,7 +6,6 @@ namespace ShinyKmlRecorder;
 [ShellMap<MainPage>(registerRoute: false)]
 public partial class MainViewModel(
     BaseServices services,
-    ILogger<MainViewModel> logger,
     IAppInfo appInfo,
     IGpsManager gpsManager
 ) : ObservableObject, IPageLifecycleAware

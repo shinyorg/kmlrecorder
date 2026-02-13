@@ -1,6 +1,6 @@
 ﻿using Android.App;
-using Android.OS;
 using Android.Content.PM;
+using Microsoft.Maui;
 using Microsoft.Maui.ApplicationModel;
 
 namespace ShinyKmlRecorder;
