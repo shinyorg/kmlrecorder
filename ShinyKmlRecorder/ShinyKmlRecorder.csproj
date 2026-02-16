@@ -17,7 +17,7 @@
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
-        <MauiVersion>10.0.40</MauiVersion>
+        <MauiVersion>10.0.30</MauiVersion>
         <ShinyVersion>4.0.0-beta-0095</ShinyVersion>
         <AddAutoApps>false</AddAutoApps>
     </PropertyGroup>
@@ -113,6 +113,15 @@
     <ItemGroup>
         <ReflectorItem Include="SentryDsn"
                        Value="$(SentryDsn)"
-                       Visible="false" />
+                       Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Platforms\iOS\Info.CarPlay.plist" Condition="'$(AddCarApps)' == 'true'">
+            <LogicalName>Info.plist</LogicalName>
+        </None>
+        <None Update="Platforms\iOS\Info.Standard.plist" Condition="'$(AddCarApps)' != 'true'">
+            <LogicalName>Info.plist</LogicalName>
+        </None>
     </ItemGroup>
 </Project>
