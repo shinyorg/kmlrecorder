@@ -6,143 +6,113 @@
              x:Class="ShinyKmlRecorder.MainPage"
              Title="KML Recorder">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="16">
-            
-            <!-- Header -->
+    <VerticalStackLayout Padding="16" Spacing="16">
+        
+        <!-- Header -->
+        <VerticalStackLayout Spacing="4" Padding="0,8">
             <Label Text="KML Recorder"
-                   FontSize="28"
+                   FontSize="32"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"/>
-            
             <Label Text="{Binding AppVersion, StringFormat='v{0}'}"
                    FontSize="12"
                    TextColor="{StaticResource Gray500}"
                    HorizontalOptions="Center"/>
-            
-            <!-- Check-in Status Card -->
-            <Border Stroke="{StaticResource Gray300}"
-                    StrokeShape="RoundRectangle 12"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                    Padding="16">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="Check-in Status"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Gray500}"/>
-                    <Label Text="{Binding DateCheckedIn, StringFormat='Checked in: {0:MMM dd, yyyy h:mm tt}', TargetNullValue='Not checked in'}"
-                           FontSize="18"/>
-                </VerticalStackLayout>
-            </Border>
-            
-            <!-- Status Card -->
-            <Border Stroke="{StaticResource Gray300}"
-                    StrokeShape="RoundRectangle 12"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                    Padding="16">
-                <VerticalStackLayout Spacing="16">
-                    <Label Text="System Status"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Gray500}"/>
-                    
-                    <!-- GPS Permissions -->
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <Label Text="📍" FontSize="20" VerticalOptions="Center"/>
-                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                            <Label Text="GPS Permissions" FontSize="14"/>
-                            <Label Text="{Binding GpsAccess}" 
-                                   FontSize="12" 
-                                   TextColor="{StaticResource Gray500}"/>
-                        </VerticalStackLayout>
-                    </Grid>
-                    
-                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
-                    
-                    <!-- GPS Active Status -->
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <Label Text="🛰️" FontSize="20" VerticalOptions="Center"/>
-                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                            <Label Text="GPS Tracking" FontSize="14"/>
-                            <Label Text="{Binding IsGpsActive}" 
-                                   FontSize="12" 
-                                   TextColor="{StaticResource Gray500}"/>
-                        </VerticalStackLayout>
-                    </Grid>
-                    
-                </VerticalStackLayout>
-            </Border>
-            
-            <!-- Action Button -->
-            <Button Text="{Binding ActionText}" 
-                    Command="{Binding ToggleTrackingCommand}"
-                    FontSize="18"
-                    FontAttributes="Bold"
-                    HeightRequest="56"
-                    CornerRadius="12"
-                    Margin="0,10,0,0"/>
-            
-            <!-- Navigation Section -->
-            <Border Stroke="{StaticResource Gray300}"
-                    StrokeShape="RoundRectangle 12"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                    Padding="16"
-                    Margin="0,10,0,0">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="Navigation"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Gray500}"/>
+        </VerticalStackLayout>
 
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                        <Button Text="📋 View Logs"
-                                Command="{Binding NavToLogsCommand}"
-                                FontSize="14"
-                                HeightRequest="44"
-                                CornerRadius="8"
-                                BackgroundColor="{StaticResource Gray300}"
-                                TextColor="{StaticResource Gray900}"/>
+        <!-- Main Action Card -->
+        <Border Stroke="{StaticResource Primary}"
+                StrokeThickness="2"
+                StrokeShape="RoundRectangle 16"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                Padding="20"
+                Margin="0,8">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Session Status"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Gray500}"/>
+                
+                <Label Text="{Binding DateCheckedIn, StringFormat='✓ Checked in since {0:MMM d, h:mm tt}', TargetNullValue='Not currently checked in'}"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+                
+                <Button Text="{Binding ActionText}"
+                        Command="{Binding ToggleTrackingCommand}"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="10"
+                        Margin="0,8,0,0"/>
+            </VerticalStackLayout>
+        </Border>
 
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
+        <!-- System Status -->
+        <Border Stroke="{StaticResource Gray300}"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                Padding="16">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="System Status"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Gray500}"/>
+                
+                <!-- GPS Status -->
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <Label Text="📍" FontSize="16" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label Text="GPS Permissions" FontSize="13"/>
+                        <Label Text="{Binding GpsAccess}"
+                               FontSize="11"
+                               TextColor="{StaticResource Gray500}"/>
+                    </VerticalStackLayout>
+                </Grid>
+                
+                <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                
+                <!-- Tracking Status -->
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <Label Text="🛰️" FontSize="16" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label Text="Active Tracking" FontSize="13"/>
+                        <Label Text="{Binding IsGpsActive, StringFormat='{0}'}"
+                               FontSize="11"
+                               TextColor="{StaticResource Gray500}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
 
-            <!-- Data Management Section -->
-            <Border Stroke="{StaticResource Gray300}"
-                    StrokeShape="RoundRectangle 12"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                    Padding="16">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="Data Management"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Gray500}"/>
-
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-
-                        <Button Grid.Column="1"
-                                Text="🗑️ Clear Logs"
-                                Command="{Binding ClearLogsCommand}"
-                                FontSize="14"
-                                HeightRequest="44"
-                                CornerRadius="8"
-                                BackgroundColor="#E74C3C"
-                                TextColor="White"/>
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-
-            <!-- Settings Button -->
-            <Button Text="⚙️ Open Settings"
-                    Command="{Binding OpenAppSettingsCommand}"
-                    FontSize="14"
+        <!-- Actions Grid -->
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button Text="📋 View Logs"
+                    Command="{Binding NavToLogsCommand}"
+                    FontSize="13"
                     HeightRequest="44"
                     CornerRadius="8"
+                    Padding="8"/>
+            
+            <Button Grid.Column="1"
+                    Text="⚙️ Settings"
+                    Command="{Binding OpenAppSettingsCommand}"
+                    FontSize="13"
+                    HeightRequest="44"
+                    CornerRadius="8"
+                    Padding="8"
                     BackgroundColor="{StaticResource Gray300}"
                     TextColor="{StaticResource Gray900}"/>
+        </Grid>
 
+        <!-- Clear Data -->
+        <Button Text="🗑️ Clear All Logs"
+                Command="{Binding ClearLogsCommand}"
+                FontSize="13"
+                HeightRequest="44"
+                CornerRadius="8"
+                BackgroundColor="#DC3545"
+                TextColor="White"/>
 
-        </VerticalStackLayout>
-    </ScrollView>
+    </VerticalStackLayout>
     
 </ContentPage>

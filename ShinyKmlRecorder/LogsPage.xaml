@@ -7,68 +7,84 @@
              x:Class="ShinyKmlRecorder.LogsPage"
              Title="Logs">
 
-    <ContentPage.Content>
-        <CollectionView ItemsSource="{Binding Logs}">
-            <CollectionView.EmptyView>
-                <Label Text="No logs available." 
-                       HorizontalOptions="Fill" 
-                       HorizontalTextAlignment="Center"
-                       VerticalOptions="Fill"
-                       VerticalTextAlignment="Center"/>
-            </CollectionView.EmptyView>
-            
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="services:LogRecord">
-                    <Border Stroke="{StaticResource Gray300}"
-                            StrokeShape="RoundRectangle 8"
-                            Padding="12"
-                            Margin="8,4">
-                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
-                              ColumnDefinitions="*,Auto">
+    <CollectionView ItemsSource="{Binding Logs}"
+                    SelectionMode="None">
+        
+        <CollectionView.EmptyView>
+            <VerticalStackLayout Spacing="12"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                <Label Text="📭" FontSize="48" HorizontalOptions="Center"/>
+                <Label Text="No logs available" 
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                <Label Text="Logs will appear here when tracking" 
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </CollectionView.EmptyView>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="services:LogRecord">
+                <Border Stroke="{StaticResource Gray300}"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="12"
+                        Margin="0,4">
+                    <VerticalStackLayout Spacing="8">
+                        
+                        <!-- Event Type Header -->
+                        <Label Text="{Binding EventType}"
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               TextColor="{StaticResource Primary}"/>
+                        
+                        <!-- Timestamp -->
+                        <Label Text="{Binding Timestamp, StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}"
+                               FontSize="11"
+                               TextColor="{StaticResource Gray500}"/>
+                        
+                        <!-- GPS Data (if available) -->
+                        <VerticalStackLayout IsVisible="{Binding Latitude, Converter={StaticResource DoubleToBoolean}}"
+                                            Spacing="4">
+                            <BoxView HeightRequest="0.5" Color="{StaticResource Gray200}" Margin="0,4"/>
                             
-                            <!-- Event Type -->
-                            <Label Text="{Binding EventType}"
-                                   FontAttributes="Bold"
-                                   FontSize="16"
-                                   TextColor="{StaticResource Primary}"
-                                   Grid.Row="0" Grid.Column="0"/>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Text="📍" FontSize="12" VerticalOptions="Center"/>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="{Binding Latitude, StringFormat='Lat: {0:F6}'}" FontSize="11"/>
+                                    <Label Text="{Binding Longitude, StringFormat='Lng: {0:F6}'}" FontSize="11"/>
+                                    <Label Text="{Binding PositionAccuracy, StringFormat='Accuracy: {0:F1}m'}" 
+                                           FontSize="11"
+                                           TextColor="{StaticResource Gray500}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!-- System Info -->
+                        <VerticalStackLayout Spacing="4">
+                            <BoxView HeightRequest="0.5" Color="{StaticResource Gray200}" Margin="0,4"/>
                             
-                            <!-- Timestamp -->
-                            <Label Text="{Binding Timestamp, StringFormat='{0:yyyy-MM-dd HH:mm:ss}'}"
-                                   FontSize="12"
-                                   TextColor="{StaticResource Gray500}"
-                                   Grid.Row="1" Grid.Column="0"/>
-                            
-                            <!-- GPS Coordinates -->
-                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="8">
-                                <Label Text="📍" FontSize="12"/>
-                                <Label Text="{Binding Latitude, StringFormat='Lat: {0:F6}'}" 
-                                       FontSize="12"/>
-                                <Label Text="{Binding Longitude, StringFormat='Lng: {0:F6}'}" 
-                                       FontSize="12"/>
-                                <Label Text="{Binding PositionAccuracy, StringFormat='Accuracy: {0:F2}m'}" 
-                                       FontSize="12"/>
-                            </HorizontalStackLayout>
-                            
-                            <!-- Status Row -->
-                            <HorizontalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Spacing="16">
-                                <HorizontalStackLayout Spacing="4">
-                                    <Label Text="🔋" FontSize="12"/>
-                                    <Label Text="{Binding BatteryStatus}" FontSize="12"/>
-                                    <Label Text="{Binding BatteryLevel, StringFormat='{0:P0}'}" FontSize="12"/>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Text="🔋" FontSize="12" VerticalOptions="Center"/>
+                                <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                    <Label Text="{Binding BatteryStatus}" FontSize="11"/>
+                                    <Label Text="{Binding BatteryLevel, StringFormat='{0:P0}'}" FontSize="11"/>
                                 </HorizontalStackLayout>
-                            </HorizontalStackLayout>
+                            </Grid>
                             
-                            <!-- Energy Saver Row -->
-                            <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Spacing="4">
-                                <Label Text="⚡" FontSize="12"/>
-                                <Label Text="{Binding IsEnergySaverOn, StringFormat='Energy Saver: {0}'}" FontSize="12"/>
-                            </HorizontalStackLayout>
-                            
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>    
-    </ContentPage.Content>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Text="⚡" FontSize="12" VerticalOptions="Center"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding IsEnergySaverOn, StringFormat='Energy Saver: {0}'}"
+                                       FontSize="11"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </ContentPage>
