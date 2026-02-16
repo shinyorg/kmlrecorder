@@ -6,7 +6,7 @@ namespace ShinyKmlRecorder.Services;
 [Singleton]
 public class MySqliteConnection : SQLiteAsyncConnection
 {
-    public MySqliteConnection(string databasePath) : base(databasePath)
+    MySqliteConnection(string databasePath) : base(databasePath)
     {
         var conn = this.GetConnection();
         conn.CreateTable<LogRecord>();

@@ -2,7 +2,6 @@
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:ShinyKmlRecorder"
-       Shell.FlyoutBehavior="Disabled"
        x:Class="ShinyKmlRecorder.AppShell"
        x:DataType="local:AppShell">
     <ShellContent Title="KML Recorder"

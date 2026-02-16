@@ -47,11 +47,9 @@ public partial class MainViewModel(
                 );
             }
         }
-
+        
         this.UpdateState();
     }
-
-
 
     [RelayCommand]
     async Task ClearLogs()
@@ -69,12 +67,9 @@ public partial class MainViewModel(
         this.UpdateState();
     }
 
-
     public void OnDisappearing()
     {
     }
-    
-    
     
     void UpdateState()
     {
