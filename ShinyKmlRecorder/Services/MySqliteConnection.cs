@@ -46,7 +46,8 @@ public class LogRecord
     public double PositionAccuracy { get; set; }
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-    public Microsoft.Maui.Devices.BatteryState BatteryStatus { get; set; }
+    public double Speed { get; set; } // Speed in m/s
+    public BatteryState BatteryStatus { get; set; }
     public double BatteryLevel { get; set; }
     public bool IsEnergySaverOn { get; set; }
     

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShinyKmlRecorder.ExportPage"
+             Title="Export GPS Data">
+
+    <VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="FillAndExpand">
+        
+        <!-- Header Section -->
+        <Label Text="Export GPS Data" FontSize="28" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+        
+        <!-- Info Box -->
+        <VerticalStackLayout Padding="15" Spacing="8" BackgroundColor="#F5F5F5">
+            <Label Text="GPS Points Available" FontAttributes="Bold" FontSize="16" />
+            <Label Text="{Binding LogCount, StringFormat='{0} points'}" FontSize="18" TextColor="#2196F3" />
+            <Label Text="{Binding ExportStatus}" FontSize="12" TextColor="#666" />
+            <Label Text="{Binding ExportSummary}" FontSize="12" TextColor="#666" />
+        </VerticalStackLayout>
+
+        <!-- Export Settings Button -->
+        <Button 
+            Text="Export Settings"
+            Command="{Binding NavToSettingsCommand}"
+            Padding="15,10"
+            CornerRadius="8"
+            BackgroundColor="#9C27B0"
+            TextColor="White"
+            FontAttributes="Bold" />
+        
+        <!-- Export Now Button -->
+        <Button 
+            Text="Export Now"
+            Command="{Binding ExportNowCommand}"
+            Padding="15,10"
+            CornerRadius="8"
+            BackgroundColor="#4CAF50"
+            TextColor="White"
+            FontAttributes="Bold" />
+        
+        <!-- Export Folder Button -->
+        <Button 
+            Text="Open Export Folder"
+            Command="{Binding OpenExportFolderCommand}"
+            Padding="15,10"
+            CornerRadius="8"
+            BackgroundColor="#FF9800"
+            TextColor="White"
+            FontAttributes="Bold"
+            Margin="0,10,0,0" />
+
+        <!-- Spacer -->
+        <BoxView HeightRequest="0" VerticalOptions="FillAndExpand" />
+
+        <!-- Status Indicator -->
+        <ActivityIndicator IsRunning="{Binding IsExporting}" IsVisible="{Binding IsExporting}" 
+                          Color="#2196F3" Margin="0,0,0,10" />
+
+    </VerticalStackLayout>
+
+</ContentPage>
+

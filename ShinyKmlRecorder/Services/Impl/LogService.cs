@@ -57,6 +57,7 @@ public partial class LogService(
             Latitude = reading.Position.Latitude,
             Longitude = reading.Position.Longitude,
             PositionAccuracy = reading.PositionAccuracy,
+            Speed = reading.Speed,
             GpsTimestamp = reading.Timestamp
         };
         
