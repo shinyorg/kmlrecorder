@@ -1,4 +1,3 @@
-
 namespace ShinyKmlRecorder;
 
 [ShellMap<LogsPage>]
@@ -7,6 +6,9 @@ public partial class LogsViewModel(
 ) : ObservableObject, IPageLifecycleAware
 {
     public IList<LogRecord> Logs { get; private set; } = null!;
+
+    [RelayCommand]
+    Task NavToExport() => services.Navigator.NavigateTo<ExportViewModel>();
 
     [RelayCommand]
     async Task Load()

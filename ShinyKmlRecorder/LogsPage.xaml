@@ -6,6 +6,17 @@
              x:DataType="shiny:LogsViewModel"
              x:Class="ShinyKmlRecorder.LogsPage"
              Title="Logs">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Export"
+                     Command="{Binding NavToExportCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <shiny:DoubleToBooleanConverter x:Key="DoubleToBoolean" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <CollectionView ItemsSource="{Binding Logs}"
                     SelectionMode="None">
