@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-  <!-- GPS location pin with route -->
-  <path d="M128 20c-44.2 0-80 35.8-80 80 0 60 80 148 80 148s80-88 80-148c0-44.2-35.8-80-80-80zm0 109c-16 0-29-13-29-29s13-29 29-29 29 13 29 29-13 29-29 29z" fill="#FFFFFF"/>
-  <!-- Small route dots -->
-  <circle cx="68" cy="220" r="6" fill="#FFFFFF" opacity="0.5"/>
-  <circle cx="188" cy="215" r="4" fill="#FFFFFF" opacity="0.4"/>
+  <path d="M128 24C83.8 24 48 59.8 48 104C48 164 128 240 128 240C128 240 208 164 208 104C208 59.8 172.2 24 128 24ZM128 133C112 133 99 120 99 104C99 88 112 75 128 75C144 75 157 88 157 104C157 120 144 133 128 133Z" fill="#FFFFFF"/>
 </svg>

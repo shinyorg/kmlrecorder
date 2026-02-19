@@ -19,7 +19,7 @@
 
         <MauiVersion>10.0.30</MauiVersion>
         <ShinyVersion>4.0.0-beta-0095</ShinyVersion>
-        <AddAutoApps>false</AddAutoApps>
+        <AddAutoApps>true</AddAutoApps>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
