@@ -11,39 +11,39 @@
                    HorizontalTextAlignment="Center" />
             <Label Text="Choose the trip, export format, and delivery method. Settings persist across app restarts."
                    FontSize="12"
-                   TextColor="#666"
+                   TextColor="{StaticResource Gray500}"
                    HorizontalTextAlignment="Center"
                    Margin="0,0,0,10" />
 
             <!-- Trip Selection Section -->
-            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="#F5F5F5">
+            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
                 <Label Text="Trip Selection" FontAttributes="Bold" FontSize="16" />
                 <Label Text="Choose a trip (WorkId) to export or select All Trips" 
-                       FontSize="12" TextColor="#666" />
+                       FontSize="12" TextColor="{StaticResource Gray500}" />
                 <Picker ItemsSource="{Binding Trips}"
                         SelectedItem="{Binding SelectedTrip}"
                         ItemDisplayBinding="{Binding Label}" />
             </VerticalStackLayout>
 
             <!-- Export Format Section -->
-            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="#F5F5F5">
+            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
                 <Label Text="Export Format" FontAttributes="Bold" FontSize="16" />
                 <Picker ItemsSource="{Binding Formats}"
                         SelectedItem="{Binding SelectedFormat}" />
             </VerticalStackLayout>
 
             <!-- Delivery Method Section -->
-            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="#F5F5F5">
+            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
                 <Label Text="Delivery Method" FontAttributes="Bold" FontSize="16" />
                 <Picker ItemsSource="{Binding Deliveries}"
                         SelectedItem="{Binding SelectedDelivery}" />
             </VerticalStackLayout>
 
             <!-- Azure Blob Settings -->
-            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="#F5F5F5">
+            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
                 <Label Text="Azure Blob Settings" FontAttributes="Bold" FontSize="16" />
                 <Label Text="Used when Delivery Method = AzureBlob"
-                       FontSize="12" TextColor="#666" />
+                       FontSize="12" TextColor="{StaticResource Gray500}" />
                 <Entry Text="{Binding AzureAccountUrl}"
                        Placeholder="Account URL (https://account.blob.core.windows.net)" />
                 <Entry Text="{Binding AzureContainerName}"
@@ -53,10 +53,10 @@
             </VerticalStackLayout>
 
             <!-- Email Settings -->
-            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="#F5F5F5">
+            <VerticalStackLayout Padding="15" Spacing="10" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
                 <Label Text="Email Settings" FontAttributes="Bold" FontSize="16" />
                 <Label Text="Used when Delivery Method = Email"
-                       FontSize="12" TextColor="#666" />
+                       FontSize="12" TextColor="{StaticResource Gray500}" />
                 <Entry Text="{Binding EmailTo}"
                        Placeholder="To (email address)" />
                 <Entry Text="{Binding EmailSubject}"
@@ -67,7 +67,7 @@
             </VerticalStackLayout>
 
             <!-- Info Section -->
-            <VerticalStackLayout Padding="15" Spacing="8" BackgroundColor="#E3F2FD">
+            <VerticalStackLayout Padding="15" Spacing="8" BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource PrimaryDark}}">
                 <Label Text="How settings work" FontAttributes="Bold" FontSize="14" />
                 <Label Text="- Trip selection filters by WorkId" FontSize="12" />
                 <Label Text="- Format controls KML vs GeoJSON" FontSize="12" />
@@ -80,7 +80,7 @@
                     Command="{Binding ResetFiltersCommand}"
                     Padding="15,10"
                     CornerRadius="8"
-                    BackgroundColor="#F44336"
+                    BackgroundColor="{StaticResource Danger}"
                     TextColor="White"
                     FontAttributes="Bold"
                     Margin="0,10,0,0" />

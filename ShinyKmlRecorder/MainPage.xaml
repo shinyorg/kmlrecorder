@@ -109,7 +109,7 @@
                 FontSize="13"
                 HeightRequest="44"
                 CornerRadius="8"
-                BackgroundColor="#DC3545"
+                BackgroundColor="{StaticResource Danger}"
                 TextColor="White"/>
     
     </VerticalStackLayout>

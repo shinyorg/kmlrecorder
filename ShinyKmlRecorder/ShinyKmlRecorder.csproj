@@ -76,8 +76,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#00897B"/>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00695C" BaseSize="128,128"/>
 
         <MauiImage Include="Resources\Images\*"/>
         <MauiFont Include="Resources\Fonts\*"/>
@@ -117,12 +117,16 @@
                        Visible="false"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <None Update="Platforms\iOS\Info.CarPlay.plist" Condition="'$(AddCarApps)' == 'true'">
-            <LogicalName>Info.plist</LogicalName>
-        </None>
-        <None Update="Platforms\iOS\Info.Standard.plist" Condition="'$(AddCarApps)' != 'true'">
-            <LogicalName>Info.plist</LogicalName>
-        </None>
+    <ItemGroup Condition="'$(AddCarPlay)' != 'true'">
+        <Compile Remove="Platforms\iOS\CarPlay\**" />
+        <None Remove="Platforms\iOS\CarPlay\**" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
+        <None Remove="Platforms\iOS\Info.plist" />
+        <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
+                            Type="Boolean"
+                            Value="true"
+                            Visible="false"/>
     </ItemGroup>
 </Project>

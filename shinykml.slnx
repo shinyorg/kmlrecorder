@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/Solution/">
+    <File Path=".github\workflows\build-android.yml" />
+    <File Path=".github\workflows\build-ios.yml" />
     <File Path="readme.md" />
   </Folder>
   <Project Path="ShinyKmlRecorder\ShinyKmlRecorder.csproj" />
