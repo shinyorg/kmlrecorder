@@ -53,7 +53,7 @@
 					<key>UISceneConfigurationName</key>
 					<string>__MAUI_DEFAULT_SCENE_CONFIGURATION__</string>
 					<key>UISceneDelegateClassName</key>
-					<string>DeviceSceneDelegate</string>
+					<string>SceneDelegate</string>
 				</dict>
 			</array>
 			<key>CPTemplateApplicationSceneSessionRoleApplication</key>
