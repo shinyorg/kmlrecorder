@@ -68,13 +68,6 @@
         <CustomEntitlements Include="keychain-access-groups" Type="StringArray" Value="%24(AppIdentifierPrefix)$(ApplicationId)" Visible="false"/>
     </ItemGroup>
 
-    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' AND '$(AddCarApps)' == 'true'">
-        <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
-                            Type="Boolean"
-                            Value="true"
-                            Visible="false"/>
-    </ItemGroup>
-
     <ItemGroup>
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#00897B"/>
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00695C" BaseSize="128,128"/>
@@ -85,7 +78,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Core" Version="4.0.0-beta-0095" />
         <PackageReference Include="Shiny.Maui.Shell" Version="2.0.0"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
         <PackageReference Include="Shiny.Extensions.DependencyInjection" Version="1.3.1"/>
@@ -117,13 +109,12 @@
                        Visible="false"/>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(AddCarPlay)' != 'true'">
+    <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
         <Compile Remove="Platforms\iOS\CarPlay\**" />
         <None Remove="Platforms\iOS\CarPlay\**" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
-        <None Remove="Platforms\iOS\Info.plist" />
         <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
                             Type="Boolean"
                             Value="true"
