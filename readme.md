@@ -1,5 +1,9 @@
 # Shiny KML Recorder
 
+<p align="center">
+  <img src="logo.svg" alt="Shiny KML Recorder" width="128" height="128">
+</p>
+
 A .NET MAUI mobile application for iOS and Android that records GPS coordinates and exports them as **KML** or **GeoJSON** files. Track your trips with check-in/check-out sessions, monitor battery and GPS data, and deliver exports via email, Azure Blob Storage, system share, or local storage. Also supports **Apple CarPlay** and **Android Auto** for hands-free recording control.
 
 ## Features

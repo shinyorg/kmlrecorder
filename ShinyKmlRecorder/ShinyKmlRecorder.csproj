@@ -9,8 +9,8 @@
         <Nullable>enable</Nullable>
 
         <LangVersion>preview</LangVersion>
-        <ApplicationTitle>KML Recorderer</ApplicationTitle>
-        <ApplicationId>org.shiny.kmlrecord</ApplicationId>
+        <ApplicationTitle>KML Recorder</ApplicationTitle>
+        <ApplicationId>org.shiny.kmlrecorder</ApplicationId>
         <ApplicationIdGuid>123BAC51-DD7C-4E46-9EBF-BB851359A556</ApplicationIdGuid>
         <MauiXamlInflator>SourceGen</MauiXamlInflator>
 
@@ -43,13 +43,6 @@
         <TargetPlatformVersion>36</TargetPlatformVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' AND '$(Configuration)' == 'Debug'">
-        <!--forces the simulator to pickup entitlements-->
-        <EnableCodeSigning>true</EnableCodeSigning>
-        <CodesignRequireProvisioningProfile>true</CodesignRequireProvisioningProfile>
-        <DisableCodesignVerification>true</DisableCodesignVerification>
-    </PropertyGroup>
-
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
         <SupportedOSPlatformVersion>16.0</SupportedOSPlatformVersion>
         <DefineConstants>$(DefineConstants);APPLE</DefineConstants>
@@ -62,8 +55,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#00897B"/>
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00695C" BaseSize="128,128"/>
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#5E35B1"/>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#7E57C2" BaseSize="128,128"/>
 
         <MauiImage Include="Resources\Images\*"/>
         <MauiFont Include="Resources\Fonts\*"/>
@@ -112,7 +105,7 @@
                             Type="Boolean"
                             Value="true"
                             Visible="false"/>
-        
+
         <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
                             Type="Boolean"
                             Value="true"
