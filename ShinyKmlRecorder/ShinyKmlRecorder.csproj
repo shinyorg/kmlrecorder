@@ -19,7 +19,7 @@
 
         <MauiVersion>10.0.30</MauiVersion>
         <ShinyVersion>4.0.0-beta-0095</ShinyVersion>
-        <AddCarApps>true</AddCarApps>
+        <AddCarPlay>true</AddCarPlay>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -33,7 +33,7 @@
         <DefineConstants>$(DefineConstants);PLATFORM</DefineConstants>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(AddCarApps)' == 'true'">
+    <PropertyGroup Condition="'$(AddCarPlay)' == 'true'">
         <DefineConstants>$(DefineConstants);ADD_CAR_APPS</DefineConstants>
     </PropertyGroup>
 
