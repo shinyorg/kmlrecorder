@@ -50,13 +50,6 @@
         <DisableCodesignVerification>true</DisableCodesignVerification>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <CodesignKey>iPhone Distribution</CodesignKey>
-        <MtouchInterpreter>-all</MtouchInterpreter>
-        <UseInterpreter>true</UseInterpreter>
-        <MtouchLink>SdkOnly</MtouchLink>
-    </PropertyGroup>
-
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
         <SupportedOSPlatformVersion>16.0</SupportedOSPlatformVersion>
         <DefineConstants>$(DefineConstants);APPLE</DefineConstants>
@@ -115,6 +108,11 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
+        <CustomEntitlements Include="com.apple.developer.carplay-maps"
+                            Type="Boolean"
+                            Value="true"
+                            Visible="false"/>
+        
         <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
                             Type="Boolean"
                             Value="true"

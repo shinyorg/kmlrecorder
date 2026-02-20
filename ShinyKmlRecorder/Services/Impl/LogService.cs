@@ -19,6 +19,17 @@ public partial class LogService(
         .OrderByDescending(x => x.Timestamp)
         .ToListAsync();
 
+    public async Task<int> GetTripPointCount(Guid workId) => await data
+        .Logs
+        .Where(x => x.WorkId == workId && x.EventType == LogEventType.GpsPing)
+        .CountAsync();
+
+    public async Task<IList<LogRecord>> GetTripPoints(Guid workId) => await data
+        .Logs
+        .Where(x => x.WorkId == workId && x.EventType == LogEventType.GpsPing)
+        .OrderBy(x => x.Timestamp)
+        .ToListAsync();
+
     
     public Task Checkin()
     {

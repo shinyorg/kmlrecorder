@@ -1,6 +1,6 @@
-#if ADD_CAR_APPS
 using CarPlay;
 using Foundation;
+using ObjCRuntime;
 using Shiny.Locations;
 using UIKit;
 
@@ -10,69 +10,198 @@ namespace ShinyKmlRecorder;
 public class CarPlaySceneDelegate : CPTemplateApplicationSceneDelegate
 {
     CPInterfaceController? interfaceController;
-    CPGridButton? toggleButton;
+    UIWindow? carWindow;
+    CarPlayMapViewController? mapViewController;
+    NSTimer? refreshTimer;
 
+    // Called when the app has the carplay-maps entitlement
+    [Export("templateApplicationScene:didConnectInterfaceController:toWindow:")]
+    public void DidConnect(CPTemplateApplicationScene scene, CPInterfaceController interfaceController, UIWindow window)
+    {
+        this.interfaceController = interfaceController;
+        this.carWindow = window;
+
+        mapViewController = new CarPlayMapViewController();
+        window.RootViewController = mapViewController;
+
+        _ = UpdateTemplate();
+        StartRefreshTimer();
+    }
+
+    // Fallback for driving-task entitlement (no map window)
     public override void DidConnect(CPTemplateApplicationScene templateApplicationScene, CPInterfaceController interfaceController)
     {
         this.interfaceController = interfaceController;
-        this.UpdateTemplate();
+        _ = UpdateTemplate();
+        StartRefreshTimer();
+    }
+
+    [Export("templateApplicationScene:didDisconnectInterfaceController:fromWindow:")]
+    public void DidDisconnect(CPTemplateApplicationScene scene, CPInterfaceController interfaceController, UIWindow window)
+    {
+        Cleanup();
     }
 
     public override void DidDisconnect(CPTemplateApplicationScene templateApplicationScene, CPInterfaceController interfaceController)
     {
-        this.interfaceController = null;
+        Cleanup();
     }
 
-    void UpdateTemplate()
+    void Cleanup()
     {
-        if (this.interfaceController == null)
+        StopRefreshTimer();
+        interfaceController = null;
+        carWindow = null;
+        mapViewController = null;
+    }
+
+    async Task UpdateTemplate()
+    {
+        if (interfaceController == null)
             return;
 
-        var logService = this.Resolve<ILogService>();
+        var logService = Resolve<ILogService>();
         var isRecording = logService.DateCheckedIn != null;
+        var count = 0;
+
+        if (isRecording && logService.WorkId != null)
+            count = await logService.GetCurrentTripPointCount();
+
+        InvokeOnMainThread(() =>
+        {
+            if (mapViewController != null)
+                SetMapTemplate(isRecording, count);
+            else
+                SetGridTemplate(isRecording, count);
+        });
+    }
+
+    void SetMapTemplate(bool isRecording, int count)
+    {
+        if (interfaceController == null)
+            return;
+
+        var toggleImage = UIImage.GetSystemImage(isRecording ? "stop.fill" : "record.circle")!;
+        var toggleButton = new CPMapButton(async _ => await ToggleRecording())
+        {
+            Image = toggleImage
+        };
+
+        // workaround: CPMapTemplate parameterless ctor missing in .NET 10 binding
+        var mapTemplate = (CPMapTemplate)Runtime.GetNSObject(
+            objc_msgSend(
+                Class.GetHandle("CPMapTemplate"),
+                Selector.GetHandle("new")
+            )
+        )!;
+        mapTemplate.MapButtons = [toggleButton];
+
+        if (isRecording)
+        {
+            var countButton = new CPBarButton($"{count} pts", _ => { });
+            mapTemplate.TrailingNavigationBarButtons = [countButton];
+        }
+
+        interfaceController.SetRootTemplate(mapTemplate, true, null);
+    }
+
+    void SetGridTemplate(bool isRecording, int count)
+    {
+        if (interfaceController == null)
+            return;
 
         var title = isRecording ? "Stop" : "Start";
         var imageName = isRecording ? "stop.fill" : "record.circle";
         var image = UIImage.GetSystemImage(imageName)!;
 
-        this.toggleButton = new CPGridButton(
-            new[] { title },
+        var titles = isRecording
+            ? new[] { title, $"{count} pts" }
+            : new[] { title };
+
+        var toggleButton = new CPGridButton(
+            titles,
             image,
-            async (button) => await this.ToggleRecording()
+            async _ => await ToggleRecording()
         );
 
-        var template = new CPGridTemplate(
-            "KML Recorder",
-            new[] { this.toggleButton }
-        );
+        var template = new CPGridTemplate("KML Recorder", [toggleButton]);
+        interfaceController.SetRootTemplate(template, true, null);
+    }
 
-        this.interfaceController.SetRootTemplate(template, true, null);
+    async Task RefreshMapAndCount()
+    {
+        var logService = Resolve<ILogService>();
+        if (logService.WorkId == null)
+            return;
+
+        var points = await logService.GetCurrentTripPoints();
+
+        InvokeOnMainThread(() =>
+        {
+            mapViewController?.UpdateRoute(points);
+
+            if (interfaceController?.RootTemplate is CPMapTemplate mapTemplate)
+            {
+                var countButton = new CPBarButton($"{points.Count} pts", _ => { });
+                mapTemplate.TrailingNavigationBarButtons = [countButton];
+            }
+        });
+    }
+
+    void StartRefreshTimer()
+    {
+        refreshTimer = NSTimer.CreateRepeatingScheduledTimer(5.0, async _ =>
+        {
+            var logService = Resolve<ILogService>();
+            if (logService.DateCheckedIn != null)
+            {
+                if (mapViewController != null)
+                    await RefreshMapAndCount();
+                else
+                    await UpdateTemplate();
+            }
+        });
+    }
+
+    void StopRefreshTimer()
+    {
+        refreshTimer?.Invalidate();
+        refreshTimer = null;
     }
 
     async Task ToggleRecording()
     {
-        var logService = this.Resolve<ILogService>();
-        var gpsManager = this.Resolve<IGpsManager>();
-
-        if (logService.DateCheckedIn != null)
+        try
         {
-            if (gpsManager.IsListening())
-                await gpsManager.StopListener();
+            var logService = Resolve<ILogService>();
+            var gpsManager = Resolve<IGpsManager>();
+            
+            if (logService.DateCheckedIn != null)
+            {
+                if (gpsManager.IsListening())
+                    await gpsManager.StopListener();
 
-            await logService.Checkout();
+                await logService.Checkout();
+            }
+            else
+            {
+                await logService.Checkin();
+
+                if (!gpsManager.IsListening())
+                    await gpsManager.StartListener(GpsRequest.Realtime(true));
+            }
+
+            await UpdateTemplate();
         }
-        else
+        catch (Exception ex)
         {
-            await logService.Checkin();
-
-            if (!gpsManager.IsListening())
-                await gpsManager.StartListener(GpsRequest.Realtime(true));
+            // TODO: log & alert
         }
-
-        this.UpdateTemplate();
     }
 
     T Resolve<T>() where T : notnull
         => IPlatformApplication.Current!.Services.GetRequiredService<T>();
+
+    [System.Runtime.InteropServices.DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
+    static extern NativeHandle objc_msgSend(NativeHandle receiver, NativeHandle selector);
 }
-#endif
