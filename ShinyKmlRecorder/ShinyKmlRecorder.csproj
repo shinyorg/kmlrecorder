@@ -93,7 +93,7 @@
         <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2"/>
     </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.Contains('-android')) AND '$(AddCarApps)' == 'true'">
+    <ItemGroup Condition="$(TargetFramework.Contains('-android')) AND '$(AddCarPlay)' == 'true'">
         <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.2"/>
         <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.10.0.1"/>
         <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.10.0.1" ExcludeAssets="all"/>
@@ -109,7 +109,7 @@
                        Visible="false"/>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
+    <ItemGroup Condition="'$(AddCarPlay)' != 'true'">
         <Compile Remove="Platforms\iOS\CarPlay\**" />
         <None Remove="Platforms\iOS\CarPlay\**" />
     </ItemGroup>
