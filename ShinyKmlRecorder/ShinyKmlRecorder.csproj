@@ -101,11 +101,12 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
+        <!--
         <CustomEntitlements Include="com.apple.developer.carplay-maps"
                             Type="Boolean"
                             Value="true"
                             Visible="false"/>
-
+        -->
         <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
                             Type="Boolean"
                             Value="true"
