@@ -47,6 +47,11 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 - State shared between the app and widget via App Groups (`group.org.shinylib.kmlrecorder`)
 - Widget timeline automatically refreshes when tracking state changes
 
+### Android Home Screen Widget
+- **Medium widget** — Displays current tracking status (Recording / Stopped) with elapsed time
+- **One-tap toggle** — Tap the play/pause button to open the app and toggle tracking
+- Widget automatically refreshes when tracking state changes
+
 ## Pages
 
 | Page | Description |
