@@ -118,6 +118,7 @@
     <!-- iOS Widget Extension -->
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
         <WidgetExtensionDir>$(MSBuildProjectDirectory)/../WidgetExtension</WidgetExtensionDir>
+        <WatchAppDir>$(MSBuildProjectDirectory)/../WatchApp</WatchAppDir>
     </PropertyGroup>
 
     <Target Name="BuildWidgetExtension"
@@ -138,5 +139,17 @@
         <ItemGroup>
             <_WidgetAppex Include="$(WidgetExtensionDir)/build/**/Build/Products/**/KmlRecorderWidgetExtension.appex/**" />
         </ItemGroup>
+    </Target>
+
+    <!-- watchOS Companion App -->
+    <Target Name="BuildWatchApp"
+            Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
+            BeforeTargets="_CompileAppManifest">
+        <PropertyGroup>
+            <_WatchSdk Condition="'$(RuntimeIdentifier)' == 'iossimulator-arm64' Or '$(RuntimeIdentifier)' == 'iossimulator-x64'">watchsimulator</_WatchSdk>
+            <_WatchSdk Condition="'$(_WatchSdk)' == ''">watchos</_WatchSdk>
+        </PropertyGroup>
+
+        <Exec Command="bash &quot;$(WatchAppDir)/build.sh&quot; $(Configuration) $(_WatchSdk)" />
     </Target>
 </Project>

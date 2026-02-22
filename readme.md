@@ -52,6 +52,12 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 - **One-tap toggle** — Tap the play/pause button to open the app and toggle tracking
 - Widget automatically refreshes when tracking state changes
 
+### Apple Watch Companion App
+- **Native SwiftUI watchOS app** — Shows current tracking status with elapsed time
+- **Check In / Check Out button** — Toggle tracking directly from your wrist
+- Communicates with iPhone app in real-time via **WatchConnectivity**
+- Status updates pushed automatically when tracking state changes on the phone
+
 ## Pages
 
 | Page | Description |
@@ -83,6 +89,7 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 
 - **iOS**: iOS 16.0+
 - **Android**: API 26+ (Android 8.0)
+- **watchOS**: watchOS 10.0+
 - **App ID**: `org.shiny.kmlrecord`
 
 ### CarPlay Setup
@@ -105,3 +112,10 @@ To toggle CarPlay/Android Auto support, set the `AddCarplay` property in the `.c
 2. The widget extension is a native Swift/SwiftUI project located in `WidgetExtension/`
 3. The `.csproj` includes MSBuild targets that build the widget extension and bundle it automatically during iOS builds
 4. The widget uses the `kmlrecorder://toggle` URL scheme to open the app and toggle tracking
+
+### watchOS App Setup
+
+1. The watchOS companion app is a native SwiftUI project located in `WatchApp/`
+2. The `.csproj` includes an MSBuild target that builds the watchOS app during iOS builds
+3. The iPhone app starts a `WCSession` in the AppDelegate to handle messages from the watch
+4. The watch app bundle identifier must be `org.shiny.kmlrecorder.watchapp` with companion app identifier `org.shiny.kmlrecorder`

@@ -1,0 +1,25 @@
+name: KmlRecorderWatch
+options:
+  bundleIdPrefix: org.shiny.kmlrecorder
+  deploymentTarget:
+    watchOS: "10.0"
+
+targets:
+  KmlRecorderWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - KmlRecorderWatch
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.shiny.kmlrecorder.watchapp
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: "5.9"
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_WKCompanionAppBundleIdentifier: org.shiny.kmlrecorder
+        INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp: false
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SKIP_INSTALL: true
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"

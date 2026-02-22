@@ -23,6 +23,7 @@ public partial class LogService
 
         defaults.Synchronize();
         ReloadWidgetTimelines();
+        WatchSessionManager.SendCurrentState();
     }
 
     static void ReloadWidgetTimelines()

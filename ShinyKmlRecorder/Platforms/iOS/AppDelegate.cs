@@ -7,7 +7,11 @@ namespace ShinyKmlRecorder;
 public class AppDelegate : MauiUIApplicationDelegate
 {
     protected override MauiApp CreateMauiApp()
-        => MauiProgram.CreateMauiApp();
+    {
+        var app = MauiProgram.CreateMauiApp();
+        WatchSessionManager.Start();
+        return app;
+    }
     
 #if ADD_CAR_APPS
     [Export("application:configurationForConnectingSceneSession:options:")]
