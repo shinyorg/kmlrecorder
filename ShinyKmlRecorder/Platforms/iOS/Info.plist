@@ -37,6 +37,17 @@
 	<string>Say something useful here that your users will understand</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Say something useful here that your users will understand</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>org.shiny.kmlrecorder</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kmlrecorder</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

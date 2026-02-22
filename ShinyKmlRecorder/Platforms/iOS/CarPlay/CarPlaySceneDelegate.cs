@@ -13,46 +13,44 @@ public class CarPlaySceneDelegate : CPTemplateApplicationSceneDelegate
     UIWindow? carWindow;
     CarPlayMapViewController? mapViewController;
     NSTimer? refreshTimer;
-
-    // Called when the app has the carplay-maps entitlement
-    [Export("templateApplicationScene:didConnectInterfaceController:toWindow:")]
-    public void DidConnect(CPTemplateApplicationScene scene, CPInterfaceController interfaceController, UIWindow window)
-    {
-        this.interfaceController = interfaceController;
-        this.carWindow = window;
-
-        mapViewController = new CarPlayMapViewController();
-        window.RootViewController = mapViewController;
-
-        _ = UpdateTemplate();
-        StartRefreshTimer();
-    }
-
+    
     // Fallback for driving-task entitlement (no map window)
     public override void DidConnect(CPTemplateApplicationScene templateApplicationScene, CPInterfaceController interfaceController)
     {
         this.interfaceController = interfaceController;
-        _ = UpdateTemplate();
-        StartRefreshTimer();
+        _ = this.UpdateTemplate();
+        this.StartRefreshTimer();
+    }
+
+    public override void DidConnect(CPTemplateApplicationScene templateApplicationScene, CPInterfaceController interfaceController, CPWindow window)
+    {
+        this.interfaceController = interfaceController;
+        this.carWindow = window;
+        
+        this.mapViewController = new CarPlayMapViewController();
+        this.carWindow.RootViewController = mapViewController;
+        
+        _ = this.UpdateTemplate();
+        this.StartRefreshTimer();
     }
 
     [Export("templateApplicationScene:didDisconnectInterfaceController:fromWindow:")]
     public void DidDisconnect(CPTemplateApplicationScene scene, CPInterfaceController interfaceController, UIWindow window)
     {
-        Cleanup();
+        this.Cleanup();
     }
 
     public override void DidDisconnect(CPTemplateApplicationScene templateApplicationScene, CPInterfaceController interfaceController)
     {
-        Cleanup();
+        this.Cleanup();
     }
 
     void Cleanup()
     {
-        StopRefreshTimer();
-        interfaceController = null;
-        carWindow = null;
-        mapViewController = null;
+        this.StopRefreshTimer();
+        this.interfaceController = null;
+        this.carWindow = null;
+        this.mapViewController = null;
     }
 
     async Task UpdateTemplate()
@@ -67,12 +65,12 @@ public class CarPlaySceneDelegate : CPTemplateApplicationSceneDelegate
         if (isRecording && logService.WorkId != null)
             count = await logService.GetCurrentTripPointCount();
 
-        InvokeOnMainThread(() =>
+        this.InvokeOnMainThread(() =>
         {
             if (mapViewController != null)
-                SetMapTemplate(isRecording, count);
+                this.SetMapTemplate(isRecording, count);
             else
-                SetGridTemplate(isRecording, count);
+                this.SetGridTemplate(isRecording, count);
         });
     }
 

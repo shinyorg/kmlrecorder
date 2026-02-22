@@ -38,6 +38,7 @@ public partial class LogService(
         
         this.DateCheckedIn = timeProvider.GetUtcNow();
         this.WorkId = Guid.NewGuid();
+        this.SyncWidgetState();
         
         return this.Complete(new LogRecord
         {
@@ -57,6 +58,7 @@ public partial class LogService(
         });
         this.DateCheckedIn = null;
         this.WorkId = null;
+        this.SyncWidgetState();
     }
     
     
@@ -87,4 +89,6 @@ public partial class LogService(
         
         return data.InsertAsync(record);
     }
+
+    partial void SyncWidgetState();
 }
