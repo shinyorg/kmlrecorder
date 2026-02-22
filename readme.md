@@ -41,6 +41,12 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 - **Apple CarPlay** — Grid template with a Start/Stop recording button; updates live as recording state changes
 - **Android Auto** — Pane template with a Start/Stop action button via AndroidX Car App library
 
+### iOS Home Screen Widget
+- **Interactive medium widget** — Displays current tracking status (Recording / Stopped) with elapsed time
+- **One-tap toggle** — Start or stop a recording session directly from the home screen
+- State shared between the app and widget via App Groups (`group.org.shinylib.kmlrecorder`)
+- Widget timeline automatically refreshes when tracking state changes
+
 ## Pages
 
 | Page | Description |
@@ -87,3 +93,10 @@ To toggle CarPlay/Android Auto support, set the `AddCarplay` property in the `.c
     <AddCarplay>true</AddCarplay>
 </PropertyGroup>
 ```
+
+### iOS Widget Setup
+
+1. Enable the **App Groups** capability for your App ID in the [Apple Developer Portal](https://developer.apple.com/account/resources/identifiers/list) and add `group.org.shinylib.kmlrecorder`
+2. The widget extension is a native Swift/SwiftUI project located in `WidgetExtension/`
+3. The `.csproj` includes MSBuild targets that build the widget extension and bundle it automatically during iOS builds
+4. The widget uses the `kmlrecorder://toggle` URL scheme to open the app and toggle tracking
