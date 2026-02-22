@@ -18,6 +18,7 @@ public partial class MainViewModel(
 
     [RelayCommand] void OpenAppSettings() => appInfo.ShowSettingsUI();
     [RelayCommand] Task NavToLogs() => services.Navigator.NavigateToLogs();
+    [RelayCommand] Task NavToTrips() => services.Navigator.NavigateToTrips();
     [RelayCommand]
     async Task ToggleTracking()
     {

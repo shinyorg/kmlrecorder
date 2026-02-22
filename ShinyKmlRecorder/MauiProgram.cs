@@ -13,6 +13,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseShiny()
             .UseShinyShell(x => x.AddGeneratedMaps())
+            .UseMauiMaps()
 #if !DEBUG
             .UseSentry(x => x.Dsn = AssemblyInfo.SentryDsn)
 #endif

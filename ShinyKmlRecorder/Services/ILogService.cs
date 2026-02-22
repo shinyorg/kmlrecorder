@@ -14,6 +14,7 @@ public interface ILogService
     Task<IList<LogRecord>> GetLogs();
     Task<int> GetTripPointCount(Guid workId);
     Task<IList<LogRecord>> GetTripPoints(Guid workId);
+    Task<IList<TripSummary>> GetTrips();
 }
 
 public static class LogServiceExtensions

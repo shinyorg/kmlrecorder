@@ -30,6 +30,22 @@ public partial class LogService(
         .OrderBy(x => x.Timestamp)
         .ToListAsync();
 
+    public async Task<IList<TripSummary>> GetTrips()
+    {
+        var allLogs = await data.Logs.OrderBy(x => x.Timestamp).ToListAsync();
+        return allLogs
+            .GroupBy(x => x.WorkId)
+            .Select(g => new TripSummary
+            {
+                WorkId = g.Key,
+                StartDate = g.Where(x => x.EventType == LogEventType.Checkin).Select(x => x.Timestamp).FirstOrDefault(g.Min(x => x.Timestamp)),
+                EndDate = g.Where(x => x.EventType == LogEventType.Checkout).Select(x => (DateTimeOffset?)x.Timestamp).FirstOrDefault(),
+                PointCount = g.Count(x => x.EventType == LogEventType.GpsPing)
+            })
+            .OrderByDescending(x => x.StartDate)
+            .ToList();
+    }
+
     
     public Task Checkin()
     {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             xmlns:shiny="clr-namespace:ShinyKmlRecorder"
+             x:DataType="shiny:TripMapViewModel"
+             x:Class="ShinyKmlRecorder.TripMapPage"
+             Title="Trip Map">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Border Stroke="{StaticResource Gray300}"
+                StrokeShape="RoundRectangle 8"
+                Padding="12"
+                Margin="8">
+            <Label Text="{Binding PointCount, StringFormat='{0} GPS points'}"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+        </Border>
+
+        <maps:Map x:Name="map"
+                  Grid.Row="1"
+                  MapType="Street"
+                  IsShowingUser="False" />
+    </Grid>
+</ContentPage>

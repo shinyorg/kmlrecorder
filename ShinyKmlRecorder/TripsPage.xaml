@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shiny="clr-namespace:ShinyKmlRecorder"
+             xmlns:services="clr-namespace:ShinyKmlRecorder.Services"
+             x:DataType="shiny:TripsViewModel"
+             x:Class="ShinyKmlRecorder.TripsPage"
+             Title="Trips">
+
+    <CollectionView ItemsSource="{Binding Trips}"
+                    SelectionMode="None">
+
+        <CollectionView.EmptyView>
+            <VerticalStackLayout Spacing="12"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                <Label Text="🗺️" FontSize="48" HorizontalOptions="Center"/>
+                <Label Text="No trips recorded"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                <Label Text="Trips will appear here after check-in"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </CollectionView.EmptyView>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="services:TripSummary">
+                <Border Stroke="{StaticResource Gray300}"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="12"
+                        Margin="8,4">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type shiny:TripsViewModel}}, Path=SelectTripCommand}"
+                            CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="4">
+
+                        <Label Text="{Binding StartDate, StringFormat='📍 {0:MMM d, yyyy h:mm tt}'}"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               Grid.Row="0" Grid.Column="0" />
+
+                        <Label Text="{Binding PointCount, StringFormat='{0} pts'}"
+                               FontSize="13"
+                               TextColor="{StaticResource Primary}"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               Grid.Row="0" Grid.Column="1" />
+
+                        <Label Text="{Binding EndDate, StringFormat='→ {0:MMM d, yyyy h:mm tt}', TargetNullValue='→ In progress...'}"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"
+                               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
