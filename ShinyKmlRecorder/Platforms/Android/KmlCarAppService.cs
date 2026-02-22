@@ -1,11 +1,7 @@
-#if ADD_CAR_APPS
-using System.Threading.Tasks;
 using Android.Content;
 using AndroidX.Car.App;
 using AndroidX.Car.App.Model;
 using AndroidX.Car.App.Validation;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui;
 using Shiny.Locations;
 using Action = AndroidX.Car.App.Model.Action;
 
@@ -16,8 +12,8 @@ namespace ShinyKmlRecorder;
     Label = "KML Recorder"
 )]
 [Android.App.IntentFilter(
-    new[] { "androidx.car.app.CarAppService" },
-    Categories = new[] { "androidx.car.app.category.IOT" }
+    [ "androidx.car.app.CarAppService" ],
+    Categories = [ "androidx.car.app.category.IOT" ]
 )]
 public class KmlCarAppService : CarAppService
 {
@@ -100,4 +96,3 @@ class ClickListener : Java.Lang.Object, IOnClickListener
             Android.Util.Log.Error("KmlCarPlay", t.Exception.ToString());
     });
 }
-#endif

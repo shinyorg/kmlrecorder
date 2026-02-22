@@ -98,14 +98,6 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 2. The project includes `CarPlaySceneDelegate` and the required `Info.plist` scene manifest configuration
 3. Custom entitlements for `com.apple.developer.carplay-driving-task` are set in the `.csproj`
 
-To toggle CarPlay/Android Auto support, set the `AddCarplay` property in the `.csproj`:
-
-```xml
-<PropertyGroup>
-    <AddCarplay>true</AddCarplay>
-</PropertyGroup>
-```
-
 ### iOS Widget Setup
 
 1. Enable the **App Groups** capability for your App ID in the [Apple Developer Portal](https://developer.apple.com/account/resources/identifiers/list) and add `group.org.shinylib.kmlrecorder`

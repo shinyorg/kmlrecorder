@@ -13,7 +13,7 @@ public class AppDelegate : MauiUIApplicationDelegate
         return app;
     }
     
-#if ADD_CAR_APPS
+
     [Export("application:configurationForConnectingSceneSession:options:")]
     public override UISceneConfiguration GetConfiguration(UIApplication application, UISceneSession connectingSceneSession, UISceneConnectionOptions options)
     {
@@ -27,5 +27,4 @@ public class AppDelegate : MauiUIApplicationDelegate
         defaultConfig.DelegateType = typeof(SceneDelegate);
         return defaultConfig;
     }
-#endif
 }

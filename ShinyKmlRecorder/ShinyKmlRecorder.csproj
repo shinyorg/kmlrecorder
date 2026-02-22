@@ -33,10 +33,6 @@
         <DefineConstants>$(DefineConstants);PLATFORM</DefineConstants>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(AddCarPlay)' == 'true'">
-        <DefineConstants>$(DefineConstants);ADD_CAR_APPS</DefineConstants>
-    </PropertyGroup>
-
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
         <DefineConstants>$(DefineConstants);PLATFORM</DefineConstants>
         <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
@@ -47,14 +43,7 @@
         <SupportedOSPlatformVersion>16.0</SupportedOSPlatformVersion>
         <DefineConstants>$(DefineConstants);APPLE</DefineConstants>
     </PropertyGroup>
-
-    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
-        <TrimmerRootDescriptor Include="Linker.xml"/>
-        <BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy"/>
-        <CustomEntitlements Include="keychain-access-groups" Type="StringArray" Value="%24(AppIdentifierPrefix)$(ApplicationId)" Visible="false"/>
-        <CustomEntitlements Include="com.apple.security.application-groups" Type="StringArray" Value="group.org.shinylib.kmlrecorder" Visible="false"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#5E35B1"/>
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#7E57C2" BaseSize="128,128"/>
@@ -81,7 +70,7 @@
         <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2"/>
     </ItemGroup>
 
-    <ItemGroup Condition="$(TargetFramework.Contains('-android')) AND '$(AddCarPlay)' == 'true'">
+    <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
         <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.2"/>
         <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.10.0.1"/>
         <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.10.0.1" ExcludeAssets="all"/>
@@ -96,24 +85,33 @@
                        Value="$(SentryDsn)"
                        Visible="false"/>
     </ItemGroup>
+    
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+        <TrimmerRootDescriptor Include="Linker.xml"/>
+        <BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy"/>
+        <CustomEntitlements Include="keychain-access-groups" 
+                            Type="StringArray" 
+                            Value="%24(AppIdentifierPrefix)$(ApplicationId)" 
+                            Visible="false"/>
+        
+        <CustomEntitlements Include="com.apple.security.application-groups" 
+                            Type="StringArray" 
+                            Value="group.org.shinylib.kmlrecorder" 
+                            Visible="false"/>
+        
+        <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
+                            Type="Boolean"
+                            Value="true"
+                            Visible="false"/>
 
-    <ItemGroup Condition="'$(AddCarPlay)' != 'true'">
-        <Compile Remove="Platforms\iOS\CarPlay\**" />
-        <None Remove="Platforms\iOS\CarPlay\**" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(AddCarPlay)' == 'true'">
         <!--
         <CustomEntitlements Include="com.apple.developer.carplay-maps"
                             Type="Boolean"
                             Value="true"
                             Visible="false"/>
         -->
-        <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
-                            Type="Boolean"
-                            Value="true"
-                            Visible="false"/>
     </ItemGroup>
+
 
     <!-- iOS Widget Extension -->
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -129,7 +127,7 @@
             <_WidgetSdk Condition="'$(_WidgetSdk)' == ''">iphoneos</_WidgetSdk>
         </PropertyGroup>
 
-        <Exec Command="bash &quot;$(WidgetExtensionDir)/build.sh&quot; $(Configuration) $(_WidgetSdk)" />
+        <Exec Command="bash &quot;$(WidgetExtensionDir)/build.sh&quot; $(Configuration) $(_WidgetSdk)"/>
     </Target>
 
     <Target Name="IncludeWidgetExtension"
@@ -137,7 +135,7 @@
             DependsOnTargets="BuildWidgetExtension"
             BeforeTargets="_ExpandNativeReferences">
         <ItemGroup>
-            <_WidgetAppex Include="$(WidgetExtensionDir)/build/**/Build/Products/**/KmlRecorderWidgetExtension.appex/**" />
+            <_WidgetAppex Include="$(WidgetExtensionDir)/build/**/Build/Products/**/KmlRecorderWidgetExtension.appex/**"/>
         </ItemGroup>
     </Target>
 
@@ -150,6 +148,6 @@
             <_WatchSdk Condition="'$(_WatchSdk)' == ''">watchos</_WatchSdk>
         </PropertyGroup>
 
-        <Exec Command="bash &quot;$(WatchAppDir)/build.sh&quot; $(Configuration) $(_WatchSdk)" />
+        <Exec Command="bash &quot;$(WatchAppDir)/build.sh&quot; $(Configuration) $(_WatchSdk)"/>
     </Target>
 </Project>
