@@ -134,7 +134,10 @@
             DependsOnTargets="BuildWidgetExtension"
             BeforeTargets="_ExpandNativeReferences">
         <ItemGroup>
-            <_WidgetAppex Include="$(WidgetExtensionDir)/build/**/Build/Products/**/KmlRecorderWidgetExtension.appex/**"/>
+            <NativeReference Include="$(WidgetExtensionDir)/build/Build/Products/$(Configuration)-$(_WidgetSdk)/KmlRecorderWidgetExtension.appex">
+                <Kind>Framework</Kind>
+                <ForceLoad>true</ForceLoad>
+            </NativeReference>
         </ItemGroup>
     </Target>
 
@@ -148,5 +151,17 @@
         </PropertyGroup>
 
         <Exec Command="bash &quot;$(WatchAppDir)/build.sh&quot; $(Configuration) $(_WatchSdk)"/>
+    </Target>
+
+    <Target Name="IncludeWatchApp"
+            Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
+            DependsOnTargets="BuildWatchApp"
+            BeforeTargets="_ExpandNativeReferences">
+        <ItemGroup>
+            <NativeReference Include="$(WatchAppDir)/build/Build/Products/$(Configuration)-$(_WatchSdk)/KmlRecorderWatch.app">
+                <Kind>Framework</Kind>
+                <ForceLoad>true</ForceLoad>
+            </NativeReference>
+        </ItemGroup>
     </Target>
 </Project>
