@@ -116,6 +116,7 @@
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
         <WidgetExtensionDir>$(MSBuildProjectDirectory)/../WidgetExtension</WidgetExtensionDir>
         <WatchAppDir>$(MSBuildProjectDirectory)/../WatchApp</WatchAppDir>
+        <DevelopmentTeam Condition="'$(DevelopmentTeam)' == ''">T9KLD6CCM9</DevelopmentTeam>
     </PropertyGroup>
 
     <Target Name="BuildWidgetExtension"
@@ -126,18 +127,17 @@
             <_WidgetSdk Condition="'$(_WidgetSdk)' == ''">iphoneos</_WidgetSdk>
         </PropertyGroup>
 
-        <Exec Command="bash &quot;$(WidgetExtensionDir)/build.sh&quot; $(Configuration) $(_WidgetSdk)"/>
+        <Exec Command="bash &quot;$(WidgetExtensionDir)/build.sh&quot; $(Configuration) $(_WidgetSdk) $(DevelopmentTeam)"/>
     </Target>
 
     <Target Name="IncludeWidgetExtension"
             Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
             DependsOnTargets="BuildWidgetExtension"
-            BeforeTargets="_ExpandNativeReferences">
+            BeforeTargets="_ComputePublishLocation">
         <ItemGroup>
-            <NativeReference Include="$(WidgetExtensionDir)/build/Build/Products/$(Configuration)-$(_WidgetSdk)/KmlRecorderWidgetExtension.appex">
-                <Kind>Framework</Kind>
-                <ForceLoad>true</ForceLoad>
-            </NativeReference>
+            <ResolvedFileToPublish Include="$(WidgetExtensionDir)/build/Build/Products/$(Configuration)-$(_WidgetSdk)/KmlRecorderWidgetExtension.appex">
+                <PublishFolderType>PlugIns</PublishFolderType>
+            </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
 
@@ -150,18 +150,13 @@
             <_WatchSdk Condition="'$(_WatchSdk)' == ''">watchos</_WatchSdk>
         </PropertyGroup>
 
-        <Exec Command="bash &quot;$(WatchAppDir)/build.sh&quot; $(Configuration) $(_WatchSdk)"/>
+        <Exec Command="bash &quot;$(WatchAppDir)/build.sh&quot; $(Configuration) $(_WatchSdk) $(DevelopmentTeam)"/>
     </Target>
 
     <Target Name="IncludeWatchApp"
             Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
-            DependsOnTargets="BuildWatchApp"
-            BeforeTargets="_ExpandNativeReferences">
-        <ItemGroup>
-            <NativeReference Include="$(WatchAppDir)/build/Build/Products/$(Configuration)-$(_WatchSdk)/KmlRecorderWatch.app">
-                <Kind>Framework</Kind>
-                <ForceLoad>true</ForceLoad>
-            </NativeReference>
-        </ItemGroup>
+            DependsOnTargets="BuildWatchApp;_GenerateBundleName"
+            AfterTargets="_CopyDirectoriesToBundle">
+        <Exec Command="mkdir -p &quot;$(_AppBundlePath)/Watch&quot; &amp;&amp; ditto &quot;$(WatchAppDir)/build/Build/Products/$(Configuration)-$(_WatchSdk)/KmlRecorderWatch.app&quot; &quot;$(_AppBundlePath)/Watch/KmlRecorderWatch.app&quot;"/>
     </Target>
 </Project>

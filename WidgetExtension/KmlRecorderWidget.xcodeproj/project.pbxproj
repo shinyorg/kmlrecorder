@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		07B2B8C05B7911AA29267BED /* KmlRecorderWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = KmlRecorderWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		07B2B8C05B7911AA29267BED /* KmlRecorderWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KmlRecorderWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		29FEE3F8EF52B8C77FC5895E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		580340B748011DA525D757A1 /* KmlRecorderWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KmlRecorderWidget.swift; sourceTree = "<group>"; };
 		8308BB87F18121F7CB699151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -87,7 +87,6 @@
 			);
 			mainGroup = 538686129C6B41B57B5274C5;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -245,9 +244,14 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = KmlRecorderWidget/KmlRecorderWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T9KLD6CCM9;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KmlRecorderWidget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.shiny.kmlrecorder.widget;
 				SDKROOT = iphoneos;
@@ -264,9 +268,14 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = KmlRecorderWidget/KmlRecorderWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T9KLD6CCM9;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = KmlRecorderWidget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.shiny.kmlrecorder.widget;
 				SDKROOT = iphoneos;

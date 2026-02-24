@@ -7,7 +7,16 @@ BUILD_DIR="$PROJECT_DIR/build"
 CONFIGURATION="${1:-Debug}"
 SDK="${2:-iphonesimulator}"
 
+TEAM_ID="${3:-}"
+
 echo "Building KmlRecorderWidget extension ($CONFIGURATION, $SDK)..."
+
+SIGNING_ARGS="CODE_SIGNING_ALLOWED=NO"
+EXTRA_ARGS=""
+if [[ "$SDK" == "iphoneos" && -n "$TEAM_ID" ]]; then
+    SIGNING_ARGS="CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=$TEAM_ID"
+    EXTRA_ARGS="-allowProvisioningUpdates"
+fi
 
 xcodebuild \
     -project "$PROJECT_DIR/KmlRecorderWidget.xcodeproj" \
@@ -15,7 +24,8 @@ xcodebuild \
     -configuration "$CONFIGURATION" \
     -sdk "$SDK" \
     -derivedDataPath "$BUILD_DIR" \
-    CODE_SIGNING_ALLOWED=NO \
+    $SIGNING_ARGS \
+    $EXTRA_ARGS \
     -quiet
 
 APPEX_PATH=$(find "$BUILD_DIR" -name "KmlRecorderWidgetExtension.appex" -type d | head -1)
