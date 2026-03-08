@@ -155,8 +155,12 @@
 
     <Target Name="IncludeWatchApp"
             Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
-            DependsOnTargets="BuildWatchApp;_GenerateBundleName"
-            AfterTargets="_CopyDirectoriesToBundle">
-        <Exec Command="mkdir -p &quot;$(_AppBundlePath)/Watch&quot; &amp;&amp; ditto &quot;$(WatchAppDir)/build/Build/Products/$(Configuration)-$(_WatchSdk)/KmlRecorderWatch.app&quot; &quot;$(_AppBundlePath)/Watch/KmlRecorderWatch.app&quot;"/>
+            DependsOnTargets="BuildWatchApp"
+            BeforeTargets="_ComputePublishLocation">
+        <ItemGroup>
+            <ResolvedFileToPublish Include="$(WatchAppDir)/build/Build/Products/$(Configuration)-$(_WatchSdk)/KmlRecorderWatch.app">
+                <PublishFolderType>Watch</PublishFolderType>
+            </ResolvedFileToPublish>
+        </ItemGroup>
     </Target>
 </Project>

@@ -13,9 +13,11 @@ echo "Building KmlRecorderWatch app ($CONFIGURATION, $SDK)..."
 
 SIGNING_ARGS="CODE_SIGNING_ALLOWED=NO"
 EXTRA_ARGS=""
+DESTINATION="generic/platform=watchOS Simulator"
 if [[ "$SDK" == "watchos" && -n "$TEAM_ID" ]]; then
     SIGNING_ARGS="CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=$TEAM_ID"
     EXTRA_ARGS="-allowProvisioningUpdates"
+    DESTINATION="generic/platform=watchOS"
 fi
 
 xcodebuild \
@@ -23,6 +25,7 @@ xcodebuild \
     -scheme "KmlRecorderWatch" \
     -configuration "$CONFIGURATION" \
     -sdk "$SDK" \
+    -destination "$DESTINATION" \
     -derivedDataPath "$BUILD_DIR" \
     $SIGNING_ARGS \
     $EXTRA_ARGS \

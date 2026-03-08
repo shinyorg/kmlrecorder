@@ -23,3 +23,15 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SKIP_INSTALL: true
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"
+
+schemes:
+  KmlRecorderWatch:
+    build:
+      targets:
+        KmlRecorderWatch: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+    profile:
+      config: Release
