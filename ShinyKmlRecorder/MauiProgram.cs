@@ -1,5 +1,6 @@
 ﻿#if PLATFORM
 using ShinyKmlRecorder.Services.Impl;
+using Shiny.SqliteDocumentDb;
 
 namespace ShinyKmlRecorder;
 
@@ -23,10 +24,15 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-#if ANDROID
-        // required for sqlite android 16kb fix
-        SQLitePCL.Batteries_V2.Init();
+        var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+        builder.Services.AddSqliteDocumentStore(opts =>
+        {
+            opts.ConnectionString = $"Data Source={dbPath}";
+#if DEBUG
+            opts.Logging = sql => System.Diagnostics.Debug.WriteLine("SQLite Query: " + sql);
 #endif
+        });
+
 #if DEBUG
         builder.Logging.SetMinimumLevel(LogLevel.Trace);
         builder.Logging.AddDebug();

@@ -5,7 +5,6 @@ public partial class ExportViewModel(
     IExportService exportService,
     IExportDeliveryService deliveryService,
     IExportSampleService sampleService,
-    ILogService logService,
     BaseServices services
 ) : ObservableObject, IPageLifecycleAware
 {
@@ -31,7 +30,7 @@ public partial class ExportViewModel(
     {
         if (LogCount == 0)
         {
-            await services.Navigator.Alert("No Data", "No GPS points available to export");
+            await services.Dialogs.Alert("No Data", "No GPS points available to export");
             return;
         }
 
@@ -47,12 +46,12 @@ public partial class ExportViewModel(
             await deliveryService.DeliverAsync(filePath, sampleService.ExportFormat, sampleService.ExportDelivery, sampleService);
 
             ExportStatus = "Export complete";
-            await services.Navigator.Alert("Success", $"Exported to:\n{filePath}");
+            await services.Dialogs.Alert("Success", $"Exported to:\n{filePath}");
         }
         catch (Exception ex)
         {
             ExportStatus = $"Error: {ex.Message}";
-            await services.Navigator.Alert("Export Failed", ex.Message);
+            await services.Dialogs.Alert("Export Failed", ex.Message);
         }
         finally
         {
@@ -70,7 +69,7 @@ public partial class ExportViewModel(
         }
         catch (Exception ex)
         {
-            await services.Navigator.Alert("Error", $"Could not open folder: {ex.Message}");
+            await services.Dialogs.Alert("Error", $"Could not open folder: {ex.Message}");
         }
     }
 
@@ -82,7 +81,7 @@ public partial class ExportViewModel(
 
     async Task UpdateLogCountAsync()
     {
-        var logs = await logService.GetLogs();
+        var logs = await services.Logs.GetLogs();
         if (sampleService.SelectedWorkId.HasValue)
             logs = logs.Where(x => x.WorkId == sampleService.SelectedWorkId.Value).ToList();
 

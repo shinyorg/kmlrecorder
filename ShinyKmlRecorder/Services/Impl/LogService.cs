@@ -1,38 +1,53 @@
 using Shiny.Locations;
+using Shiny.SqliteDocumentDb;
 
 namespace ShinyKmlRecorder.Services.Impl;
 
 
 public partial class LogService(
     TimeProvider timeProvider,
-    MySqliteConnection data, 
+    IDocumentStore data, 
     IBattery battery
 ) : ObservableObject, ILogService
 {
     [ObservableProperty] public partial Guid? WorkId { get; set; }
     [ObservableProperty] public partial DateTimeOffset? DateCheckedIn { get; set; }
     
-    public Task ClearLogs() => data.DeleteAllLogs();
-    public async Task<IList<LogRecord>> GetLogs() => await data
-        .Logs
-        .Take(500)
-        .OrderByDescending(x => x.Timestamp)
-        .ToListAsync();
+    public async Task ClearLogs() => await data.Clear<LogRecord>();
 
-    public async Task<int> GetTripPointCount(Guid workId) => await data
-        .Logs
-        .Where(x => x.WorkId == workId && x.EventType == LogEventType.GpsPing)
-        .CountAsync();
+    public async Task<IList<LogRecord>> GetLogs()
+    {
+        var results = await data.Query<LogRecord>()
+            .OrderByDescending(x => x.Timestamp)
+            .Paginate(0, 500)
+            .ToList();
+        
+        return results.ToList();
+    }
 
-    public async Task<IList<LogRecord>> GetTripPoints(Guid workId) => await data
-        .Logs
-        .Where(x => x.WorkId == workId && x.EventType == LogEventType.GpsPing)
-        .OrderBy(x => x.Timestamp)
-        .ToListAsync();
+    public async Task<int> GetTripPointCount(Guid workId)
+    {
+        var count = await data.Query<LogRecord>()
+            .Where(x => x.WorkId == workId && x.EventType == LogEventType.GpsPing)
+            .Count();
+        return (int)count;
+    }
+
+    public async Task<IList<LogRecord>> GetTripPoints(Guid workId)
+    {
+        var results = await data.Query<LogRecord>()
+            .Where(x => x.WorkId == workId && x.EventType == LogEventType.GpsPing)
+            .OrderBy(x => x.Timestamp)
+            .ToList();
+        return results.ToList();
+    }
 
     public async Task<IList<TripSummary>> GetTrips()
     {
-        var allLogs = await data.Logs.OrderBy(x => x.Timestamp).ToListAsync();
+        var allLogs = await data.Query<LogRecord>()
+            .OrderBy(x => x.Timestamp)
+            .ToList();
+            
         return allLogs
             .GroupBy(x => x.WorkId)
             .Select(g => new TripSummary
@@ -103,7 +118,7 @@ public partial class LogService(
         record.BatteryLevel = battery.ChargeLevel;
         record.BatteryStatus = battery.State;
         
-        return data.InsertAsync(record);
+        return data.Insert(record);
     }
 
     partial void SyncWidgetState();

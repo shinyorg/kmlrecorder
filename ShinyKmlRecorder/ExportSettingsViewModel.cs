@@ -1,11 +1,12 @@
 using System.Collections.ObjectModel;
+using Shiny.SqliteDocumentDb;
 
 namespace ShinyKmlRecorder;
 
 [ShellMap<ExportSettingsPage>]
 public partial class ExportSettingsViewModel(
     IExportSampleService sampleService,
-    MySqliteConnection data,
+    IDocumentStore data,
     BaseServices services
 ) : ObservableObject, IPageLifecycleAware
 {
@@ -41,7 +42,7 @@ public partial class ExportSettingsViewModel(
         Trips.Clear();
         Trips.Add(TripOption.AllTrips());
 
-        var logs = await data.Logs.ToListAsync();
+        var logs = await data.Query<LogRecord>().ToList();
         var trips = logs
             .Where(x => x.WorkId != Guid.Empty)
             .GroupBy(x => x.WorkId)
@@ -109,7 +110,7 @@ public partial class ExportSettingsViewModel(
     [RelayCommand]
     async Task ResetFilters()
     {
-        var confirm = await services.Navigator.Confirm(
+        var confirm = await services.Dialogs.Confirm(
             "Reset Settings", 
             "Are you sure you want to reset all export settings to defaults?"
         );
@@ -119,7 +120,7 @@ public partial class ExportSettingsViewModel(
             sampleService.ResetFilters();
             LoadSettings();
             await LoadTripsAsync();
-            await services.Navigator.Alert("Done", "All export settings have been reset");
+            await services.Dialogs.Alert("Done", "All export settings have been reset");
         }
     }
 }

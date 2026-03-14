@@ -42,7 +42,7 @@ public partial class MainViewModel(
             }
             catch (Exception ex)
             {
-                await services.Navigator.Alert(
+                await services.Dialogs.Alert(
                     "Error starting GPS",
                     ex.ToString()
                 );
@@ -55,11 +55,11 @@ public partial class MainViewModel(
     [RelayCommand]
     async Task ClearLogs()
     {
-        var confirm = await services.Navigator.Confirm("Confirm", "Are you sure you want to clear all the logs?");
+        var confirm = await services.Dialogs.Confirm("Confirm", "Are you sure you want to clear all the logs?");
         if (confirm)
         {
             await services.Logs.ClearLogs();
-            await services.Navigator.Alert("Done", "All Logs cleared");
+            await services.Dialogs.Alert("Done", "All Logs cleared");
         }
     }
 

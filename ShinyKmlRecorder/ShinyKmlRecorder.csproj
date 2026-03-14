@@ -17,9 +17,8 @@
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
-        <MauiVersion>10.0.30</MauiVersion>
+        <MauiVersion>10.0.50</MauiVersion>
         <ShinyVersion>4.0.0-beta-0095</ShinyVersion>
-        <AddCarPlay>true</AddCarPlay>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -43,7 +42,7 @@
         <SupportedOSPlatformVersion>16.0</SupportedOSPlatformVersion>
         <DefineConstants>$(DefineConstants);APPLE</DefineConstants>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#5E35B1"/>
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#7E57C2" BaseSize="128,128"/>
@@ -54,20 +53,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="2.0.0"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="3.1.0"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
-        <PackageReference Include="Shiny.Extensions.DependencyInjection" Version="1.3.1"/>
-        <PackageReference Include="Shiny.Reflector" Version="1.7.1"/>
+        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="2.0.0"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" Condition="'$(Configuration)' == 'DEBUG'"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
-        <PackageReference Include="Sentry.Maui" Version="6.1.0"/>
-        <PackageReference Include="sqlite-net-pcl" Version="1.10.196-beta"/>
-    </ItemGroup>
-
-    <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
-        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2"/>
+        <PackageReference Include="Shiny.SqliteDocumentDb" Version="1.0.0"/>
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
@@ -80,24 +73,18 @@
         <PackageReference Include="Shiny.Hosting.Maui" Version="$(ShinyVersion)"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <ReflectorItem Include="SentryDsn"
-                       Value="$(SentryDsn)"
-                       Visible="false"/>
-    </ItemGroup>
-    
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
         <TrimmerRootDescriptor Include="Linker.xml"/>
         <BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy"/>
-        <CustomEntitlements Include="keychain-access-groups" 
-                            Type="StringArray" 
-                            Value="%24(AppIdentifierPrefix)$(ApplicationId)" 
+        <CustomEntitlements Include="keychain-access-groups"
+                            Type="StringArray"
+                            Value="%24(AppIdentifierPrefix)$(ApplicationId)"
                             Visible="false"/>
-        <CustomEntitlements Include="com.apple.security.application-groups" 
-                            Type="StringArray" 
-                            Value="group.org.shinylib.kmlrecorder" 
+        <CustomEntitlements Include="com.apple.security.application-groups"
+                            Type="StringArray"
+                            Value="group.org.shinylib.kmlrecorder"
                             Visible="false"/>
-        
+
         <CustomEntitlements Include="com.apple.developer.carplay-driving-task"
                             Type="Boolean"
                             Value="true"
@@ -111,8 +98,7 @@
         -->
     </ItemGroup>
 
-
-    <!-- iOS Widget Extension -->
+    <!--    
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
         <WidgetExtensionDir>$(MSBuildProjectDirectory)/../WidgetExtension</WidgetExtensionDir>
         <WatchAppDir>$(MSBuildProjectDirectory)/../WatchApp</WatchAppDir>
@@ -141,7 +127,6 @@
         </ItemGroup>
     </Target>
 
-    <!-- watchOS Companion App -->
     <Target Name="BuildWatchApp"
             Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
             BeforeTargets="_CompileAppManifest">
@@ -163,4 +148,5 @@
             </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
+    -->
 </Project>

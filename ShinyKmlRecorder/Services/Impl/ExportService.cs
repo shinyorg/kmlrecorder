@@ -2,12 +2,13 @@ using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Shiny.SqliteDocumentDb;
 
 namespace ShinyKmlRecorder.Services.Impl;
 
 [Singleton]
 public class ExportService(
-    MySqliteConnection data,
+    IDocumentStore data,
     IPlatform platform,
     ILogger<ExportService> logger,
     IExportSampleService sampleService
@@ -27,7 +28,7 @@ public class ExportService(
 
     public async Task<string> ExportToKmlAsync()
     {
-        var logs = await data.Logs.ToListAsync();
+        var logs = await data.Query<LogRecord>().ToList();
         var gpsLogs = ApplyFilters(logs);
 
         if (!gpsLogs.Any())
@@ -48,7 +49,7 @@ public class ExportService(
 
     public async Task<string> ExportToGeoJsonAsync()
     {
-        var logs = await data.Logs.ToListAsync();
+        var logs = await data.Query<LogRecord>().ToList();
         var gpsLogs = ApplyFilters(logs);
 
         if (!gpsLogs.Any())
@@ -67,7 +68,7 @@ public class ExportService(
         return filePath;
     }
 
-    List<LogRecord> ApplyFilters(List<LogRecord> logs)
+    List<LogRecord> ApplyFilters(IReadOnlyList<LogRecord> logs)
     {
         var filtered = logs
             .Where(x => x.EventType == LogEventType.GpsPing && x.Latitude != 0 && x.Longitude != 0);

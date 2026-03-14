@@ -1,5 +1,4 @@
 ﻿global using Shiny;
-global using Shiny.Extensions.DependencyInjection;
 global using System;
 global using System.Collections.Generic;
 global using Microsoft.Extensions.Logging;
