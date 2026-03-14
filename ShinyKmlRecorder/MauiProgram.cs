@@ -15,9 +15,6 @@ public static class MauiProgram
             .UseShiny()
             .UseShinyShell(x => x.AddGeneratedMaps())
             .UseMauiMaps()
-#if !DEBUG
-            .UseSentry(x => x.Dsn = AssemblyInfo.SentryDsn)
-#endif
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
