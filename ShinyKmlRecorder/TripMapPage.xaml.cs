@@ -16,15 +16,18 @@ public partial class TripMapPage : ContentPage
         {
             vm.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(TripMapViewModel.Route) && vm.Route != null)
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    map.MapElements.Clear();
-                    map.MapElements.Add(vm.Route);
-                }
-                if (e.PropertyName == nameof(TripMapViewModel.Region) && vm.Region != null)
-                {
-                    map.MoveToRegion(vm.Region);
-                }
+                    if (e.PropertyName == nameof(TripMapViewModel.Route) && vm.Route != null)
+                    {
+                        map.MapElements.Clear();
+                        map.MapElements.Add(vm.Route);
+                    }
+                    if (e.PropertyName == nameof(TripMapViewModel.Region) && vm.Region != null)
+                    {
+                        map.MoveToRegion(vm.Region);
+                    }
+                });
             };
         }
     }

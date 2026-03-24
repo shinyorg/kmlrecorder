@@ -37,8 +37,8 @@ public partial class TripMapViewModel(
         var latitudes = points.Select(p => p.Latitude);
         var longitudes = points.Select(p => p.Longitude);
 
-        var latSpan = Math.Max(0.01, (latitudes.Max() - latitudes.Min()) * 1.3);
-        var lngSpan = Math.Max(0.01, (longitudes.Max() - longitudes.Min()) * 1.3);
+        var latSpan = Math.Clamp((latitudes.Max() - latitudes.Min()) * 1.3, 0.01, 90);
+        var lngSpan = Math.Clamp((longitudes.Max() - longitudes.Min()) * 1.3, 0.01, 180);
 
         this.Region = new MapSpan(
             new Location(midPoint.Latitude, midPoint.Longitude),

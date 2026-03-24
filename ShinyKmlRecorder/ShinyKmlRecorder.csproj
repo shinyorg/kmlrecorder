@@ -53,14 +53,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="3.1.0"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="3.1.1"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
-        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="2.0.0"/>
+        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="2.0.3"/>
+        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="3.0.1"/>
+        <PackageReference Include="Shiny.DocumentDb.Extensions.DependencyInjection" Version="3.0.1"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" Condition="'$(Configuration)' == 'DEBUG'"/>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
-        <PackageReference Include="Shiny.SqliteDocumentDb" Version="1.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" Condition="'$(Configuration)' == 'DEBUG'"/>
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">

@@ -1,6 +1,8 @@
 ﻿#if PLATFORM
+using System.Text.Json.Serialization;
+using Shiny.DocumentDb;
+using Shiny.DocumentDb.Sqlite;
 using ShinyKmlRecorder.Services.Impl;
-using Shiny.SqliteDocumentDb;
 
 namespace ShinyKmlRecorder;
 
@@ -20,11 +22,13 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-
-        var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
-        builder.Services.AddSqliteDocumentStore(opts =>
+        
+        builder.Services.AddDocumentStore(opts =>
         {
-            opts.ConnectionString = $"Data Source={dbPath}";
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
+            opts.DatabaseProvider = new SqliteDatabaseProvider($"Data Source={dbPath}");
+            opts.JsonSerializerOptions = AppJsonContext.Default.Options;
+            opts.UseReflectionFallback = false;
 #if DEBUG
             opts.Logging = sql => System.Diagnostics.Debug.WriteLine("SQLite Query: " + sql);
 #endif
@@ -49,3 +53,7 @@ public static class MauiProgram
     }
 }
 #endif
+
+
+[JsonSerializable(typeof(LogRecord))]
+public partial class AppJsonContext : JsonSerializerContext;
