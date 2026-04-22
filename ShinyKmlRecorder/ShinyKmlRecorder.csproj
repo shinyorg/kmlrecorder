@@ -7,18 +7,16 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
         <LangVersion>preview</LangVersion>
+
         <ApplicationTitle>KML Recorder</ApplicationTitle>
         <ApplicationId>org.shiny.kmlrecorder</ApplicationId>
-        <ApplicationIdGuid>123BAC51-DD7C-4E46-9EBF-BB851359A556</ApplicationIdGuid>
-        <MauiXamlInflator>SourceGen</MauiXamlInflator>
-
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
-
-        <MauiVersion>10.0.50</MauiVersion>
-        <ShinyVersion>4.0.0-beta-0095</ShinyVersion>
+        
+        <MauiVersion>10.0.51</MauiVersion>
+        <ShinyVersion>4.1.0-beta-0093</ShinyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -53,20 +51,20 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="3.1.1"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="5.0.0"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
-        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="2.0.3"/>
-        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="3.0.1"/>
-        <PackageReference Include="Shiny.DocumentDb.Extensions.DependencyInjection" Version="3.0.1"/>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1"/>
+        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="2.0.4"/>
+        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="3.2.0"/>
+        <PackageReference Include="Shiny.DocumentDb.Extensions.DependencyInjection" Version="3.2.0"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" Condition="'$(Configuration)' == 'DEBUG'"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" Condition="'$(Configuration)' == 'DEBUG'"/>
     </ItemGroup>
-
+    
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
         <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.2"/>
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.10.0.1"/>
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.10.0.2"/>
         <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.10.0.1" ExcludeAssets="all"/>
     </ItemGroup>
 
