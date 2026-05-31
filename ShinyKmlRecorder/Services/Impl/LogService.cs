@@ -10,8 +10,8 @@ public partial class LogService(
     IBattery battery
 ) : ObservableObject, ILogService
 {
-    [ObservableProperty] public partial Guid? WorkId { get; set; }
-    [ObservableProperty] public partial DateTimeOffset? DateCheckedIn { get; set; }
+    [Bind] public partial Guid? WorkId { get; private set; }
+    [Bind] public partial DateTimeOffset? DateCheckedIn { get; private set; }
     
     public async Task ClearLogs() => await data.Clear<LogRecord>();
 
@@ -116,7 +116,15 @@ public partial class LogService(
         record.IsEnergySaverOn = battery.EnergySaverStatus == EnergySaverStatus.On;
         record.Timestamp = timeProvider.GetUtcNow();
         record.BatteryLevel = battery.ChargeLevel;
-        record.BatteryStatus = battery.State;
+        record.BatteryStatus = battery.State switch
+        {
+            Microsoft.Maui.Devices.BatteryState.Charging => BatteryState.Charging,
+            Microsoft.Maui.Devices.BatteryState.Discharging => BatteryState.Discharging,
+            Microsoft.Maui.Devices.BatteryState.Full => BatteryState.Full,
+            Microsoft.Maui.Devices.BatteryState.NotCharging => BatteryState.NotCharging,
+            Microsoft.Maui.Devices.BatteryState.NotPresent => BatteryState.None,
+            _ => BatteryState.Unknown
+        };
         
         return data.Insert(record);
     }
