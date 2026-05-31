@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shiny="http://shiny.net/maui/controls"
+             xmlns:local="clr-namespace:ShinyKmlRecorder"
+             x:DataType="local:SettingsViewModel"
+             x:Class="ShinyKmlRecorder.SettingsPage"
+             Title="Settings">
+
+    <shiny:TableView>
+        <shiny:TableRoot>
+
+            <shiny:TableSection Title="GPS Minimum Thresholds"
+                                FooterText="A reading must satisfy ALL set minimums before it is recorded. Set a value to 0 to disable that filter.">
+                <shiny:NumberPickerCell Title="Minimum Distance"
+                                        Number="{Binding MinimumDistanceMeters, Mode=TwoWay}"
+                                        Min="0"
+                                        Max="10000"
+                                        Unit="m" />
+                <shiny:NumberPickerCell Title="Minimum Time"
+                                        Number="{Binding MinimumTimeSeconds, Mode=TwoWay}"
+                                        Min="0"
+                                        Max="3600"
+                                        Unit="s" />
+            </shiny:TableSection>
+
+            <shiny:TableSection Title="GPS Maximum Thresholds"
+                                FooterText="If EITHER maximum is exceeded since the last recorded reading, the reading is forced through regardless of minimums. Set a value to 0 to disable.">
+                <shiny:NumberPickerCell Title="Maximum Distance"
+                                        Number="{Binding MaximumDistanceMeters, Mode=TwoWay}"
+                                        Min="0"
+                                        Max="100000"
+                                        Unit="m" />
+                <shiny:NumberPickerCell Title="Maximum Time"
+                                        Number="{Binding MaximumTimeSeconds, Mode=TwoWay}"
+                                        Min="0"
+                                        Max="86400"
+                                        Unit="s" />
+            </shiny:TableSection>
+
+            <shiny:TableSection Title="Actions">
+                <shiny:ButtonCell Title="Reset to Defaults"
+                                  Command="{Binding ResetDefaultsCommand}"
+                                  ButtonTextColor="Red" />
+            </shiny:TableSection>
+
+        </shiny:TableRoot>
+    </shiny:TableView>
+</ContentPage>

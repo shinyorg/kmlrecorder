@@ -15,8 +15,8 @@
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
-        <MauiVersion>10.0.51</MauiVersion>
-        <ShinyVersion>4.1.0-beta-0093</ShinyVersion>
+        <MauiVersion>10.0.70</MauiVersion>
+        <ShinyVersion>5.0.0-beta-0120</ShinyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -51,15 +51,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="5.0.0"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="6.1.1"/>
+        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="6.1.1"/>
+        <PackageReference Include="Shiny.Maui.Controls" Version="1.0.1-beta-0089"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
-        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="2.0.4"/>
-        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="3.2.0"/>
-        <PackageReference Include="Shiny.DocumentDb.Extensions.DependencyInjection" Version="3.2.0"/>
+        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="4.1.0"/>
+        <PackageReference Include="Shiny.Extensions.Stores" Version="4.1.0"/>
+        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="5.2.2"/>
+        <PackageReference Include="Shiny.DocumentDb.Extensions.DependencyInjection" Version="5.2.2"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" Condition="'$(Configuration)' == 'DEBUG'"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.8" Condition="'$(Configuration)' == 'DEBUG'"/>
     </ItemGroup>
     
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">

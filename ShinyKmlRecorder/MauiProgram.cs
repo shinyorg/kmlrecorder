@@ -16,12 +16,15 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseShiny()
             .UseShinyShell(x => x.AddGeneratedMaps())
+            .UseShinyControls()
             .UseMauiMaps()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+
+        builder.Services.AddShinyStores();
         
         builder.Services.AddDocumentStore(opts =>
         {
