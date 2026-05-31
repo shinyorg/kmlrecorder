@@ -16,7 +16,7 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .UseShiny()
             .UseShinyShell(x => x.AddGeneratedMaps())
-            .UseShinyControls()
+            .UseShinyControls(x => x.AddDefaultMauiControlFeedback())
             .UseMauiMaps()
             .ConfigureFonts(fonts =>
             {
@@ -44,6 +44,7 @@ public static class MauiProgram
         builder.Services.AddSingleton(AppInfo.Current);
         builder.Services.AddSingleton(Battery.Default);
         builder.Services.AddSingleton(TimeProvider.System);
+        builder.Services.AddShinyStores();
         
         builder.Services.AddGps<ShinyKmlRecorder.Delegates.MyGpsDelegate>();
 
