@@ -4,6 +4,7 @@ using Shiny.Locations;
 namespace ShinyKmlRecorder.Services.Impl;
 
 
+[Singleton]
 public partial class LogService(
     TimeProvider timeProvider,
     IDocumentStore data, 
