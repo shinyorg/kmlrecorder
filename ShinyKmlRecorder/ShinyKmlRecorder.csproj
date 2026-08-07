@@ -14,8 +14,8 @@
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
-        <MauiVersion>10.0.70</MauiVersion>
-        <ShinyVersion>5.0.0-beta-0132</ShinyVersion>
+        <MauiVersion>10.0.90</MauiVersion>
+        <ShinyVersion>5.4.0-beta-0077</ShinyVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -53,23 +53,22 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="6.2.0"/>
-        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="6.2.0"/>
-        <PackageReference Include="Shiny.Maui.Controls" Version="1.0.1-beta-0098"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="6.3.2"/>
+        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="6.3.2"/>
+        <PackageReference Include="Shiny.Maui.Controls" Version="1.0.1-beta-0174"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
-        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="4.1.1"/>
-        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="6.1.0"/>
-        <PackageReference Include="Shiny.DocumentDb.Extensions.DependencyInjection" Version="6.1.0"/>
+        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="5.1.5"/>
+        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="13.1.2"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.8" Condition="'$(Configuration)' == 'DEBUG'"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" Condition="'$(Configuration)' == 'DEBUG'"/>
     </ItemGroup>
     
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
-        <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.3"/>
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.10.0.2"/>
-        <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.11.2" ExcludeAssets="all"/>
+        <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.4"/>
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.11.0.1"/>
+        <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.11.4" ExcludeAssets="all"/>
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework.Contains('-android')) OR $(TargetFramework.Contains('-ios'))">

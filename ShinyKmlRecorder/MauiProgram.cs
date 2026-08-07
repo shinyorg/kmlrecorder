@@ -36,9 +36,6 @@ public static class MauiProgram
             opts.DatabaseProvider = new SqliteDatabaseProvider($"Data Source={dbPath}");
             opts.JsonSerializerOptions = AppJsonContext.Default.Options;
             opts.UseReflectionFallback = false;
-#if DEBUG
-            opts.Logging = sql => System.Diagnostics.Debug.WriteLine("SQLite Query: " + sql);
-#endif
         });
 
 #if DEBUG
