@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ShinyKmlRecorder"
+             x:DataType="local:ObdSessionsViewModel"
+             x:Class="ShinyKmlRecorder.ObdSessionsPage"
+             Title="OBD Sessions">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delivery" Command="{Binding NavToExportSettingsCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Label Text="{Binding DeliverySummary}"
+               FontSize="12"
+               TextColor="{StaticResource Gray500}"
+               Margin="16,8"/>
+
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Sessions}"
+                        SelectionMode="None">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Spacing="12"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                    <Label Text="🚗" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="No OBD sessions recorded"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Connect an adapter and start recording"
+                           FontSize="12"
+                           TextColor="{StaticResource Gray500}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:ObdSessionItem">
+                    <Border Stroke="{StaticResource Gray300}"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="12"
+                            Margin="8,4">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ObdSessionsViewModel}}, Path=SelectCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="4">
+                            <Label Text="{Binding StartTime, StringFormat='🚗 {0:MMM d, yyyy h:mm tt}'}"
+                                   FontSize="14"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding RecordCount, StringFormat='{0} samples'}"
+                                   FontSize="13"
+                                   TextColor="{StaticResource Primary}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                   Text="{Binding EndTime, StringFormat='→ {0:MMM d, yyyy h:mm tt}', TargetNullValue='→ In progress...'}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Gray500}" />
+
+                            <Label Grid.Row="2" Grid.ColumnSpan="2"
+                                   Text="{Binding Vehicle}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Gray500}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator Grid.Row="2"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource Primary}"
+                           Margin="0,0,0,10"/>
+    </Grid>
+</ContentPage>

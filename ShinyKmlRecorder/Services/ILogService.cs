@@ -1,3 +1,4 @@
+using BatteryState = Shiny.Power.BatteryState;
 using Shiny.Locations;
 
 namespace ShinyKmlRecorder.Services;

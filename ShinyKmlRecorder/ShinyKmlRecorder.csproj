@@ -14,8 +14,9 @@
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
-        <MauiVersion>10.0.90</MauiVersion>
-        <ShinyVersion>5.4.0-beta-0077</ShinyVersion>
+        <MauiVersion>10.0.100</MauiVersion>
+        <ShinyVersion>6.6.0</ShinyVersion>
+        <ShinyObdVersion>1.5.1</ShinyObdVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -53,19 +54,30 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="6.3.2"/>
-        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="6.3.2"/>
-        <PackageReference Include="Shiny.Maui.Controls" Version="1.0.1-beta-0174"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="7.0.3"/>
+        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="7.0.3"/>
+        <PackageReference Include="Shiny.Maui.Controls" Version="2.5.0"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
-        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="5.1.5"/>
-        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="13.1.2"/>
+        <PackageReference Include="Shiny.BluetoothLE" Version="$(ShinyVersion)"/>
+        <PackageReference Include="Shiny.Extensions.Stores" Version="6.0.1"/>
+        <PackageReference Include="Shiny.Extensions.Serialization" Version="6.0.1"/>
+        <PackageReference Include="Shiny.Extensions.DependencyInjection" Version="6.0.1"/>
+        <!-- Microsoft.Data.Sqlite (via DocumentDb) still pulls 2.1.11, which bundles a vulnerable SQLite (GHSA-2m69-gcr7-jv3q) -->
+        <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.14"/>
+        <PackageReference Include="Shiny.Obd" Version="$(ShinyObdVersion)"/>
+        <PackageReference Include="Shiny.Obd.Ble" Version="$(ShinyObdVersion)"/>
+        <PackageReference Include="Shiny.Obd.Wifi" Version="$(ShinyObdVersion)"/>
+        <PackageReference Include="Shiny.Extensions.MauiHosting" Version="5.3.1"/>
+        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="14.2.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" Condition="'$(Configuration)' == 'DEBUG'"/>
+        <PackageReference Include="Mapsui.Maui" Version="5.1.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.15" Condition="'$(Configuration)' == 'DEBUG'"/>
     </ItemGroup>
     
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+        <PackageReference Include="Shiny.Bluetooth" Version="$(ShinyVersion)"/>
+        <PackageReference Include="Shiny.Obd.Bluetooth" Version="$(ShinyObdVersion)"/>
         <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.4"/>
         <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.11.0.1"/>
         <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.11.4" ExcludeAssets="all"/>

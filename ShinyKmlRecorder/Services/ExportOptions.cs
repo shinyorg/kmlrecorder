@@ -3,7 +3,8 @@ namespace ShinyKmlRecorder.Services;
 public enum ExportFormat
 {
     Kml = 0,
-    GeoJson = 1
+    GeoJson = 1,
+    Csv = 2
 }
 
 public enum ExportDelivery

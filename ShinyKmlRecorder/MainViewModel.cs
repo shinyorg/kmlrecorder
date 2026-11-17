@@ -20,6 +20,7 @@ public partial class MainViewModel(
     [RelayCommand] Task NavToLogs() => services.Navigator.NavigateToLogs();
     [RelayCommand] Task NavToTrips() => services.Navigator.NavigateToTrips();
     [RelayCommand] Task NavToSettings() => services.Navigator.NavigateToSettings();
+    [RelayCommand] Task NavToObd() => services.Navigator.NavigateTo<ObdViewModel>();
     [RelayCommand]
     async Task ToggleTracking()
     {

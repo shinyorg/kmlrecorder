@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ShinyKmlRecorder"
+             x:DataType="local:ObdViewModel"
+             x:Class="ShinyKmlRecorder.ObdPage"
+             Title="OBD">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Sessions" Command="{Binding NavToSessionsCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Status -->
+            <Border Stroke="{StaticResource Primary}"
+                    StrokeThickness="2"
+                    StrokeShape="RoundRectangle 16"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                    Padding="20">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Adapter"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray500}"/>
+
+                    <Label Text="{Binding StatusText}"
+                           FontSize="16"
+                           FontAttributes="Bold"/>
+
+                    <Label Text="{Binding Vin, StringFormat='VIN: {0}'}"
+                           IsVisible="{Binding HasVin}"
+                           FontSize="12"
+                           TextColor="{StaticResource Gray500}"/>
+
+                    <Label Text="{Binding StatusMessage}"
+                           IsVisible="{Binding HasStatusMessage}"
+                           FontSize="12"
+                           TextColor="{StaticResource Warning}"/>
+
+                    <Button Text="{Binding RecordText}"
+                            Command="{Binding ToggleRecordingCommand}"
+                            IsVisible="{Binding IsConnected}"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            HeightRequest="50"
+                            CornerRadius="10"
+                            Margin="0,8,0,0"/>
+
+                    <Button Text="Disconnect"
+                            Command="{Binding DisconnectCommand}"
+                            IsVisible="{Binding IsConnected}"
+                            FontSize="13"
+                            HeightRequest="44"
+                            CornerRadius="8"
+                            BackgroundColor="{StaticResource Gray300}"
+                            TextColor="{StaticResource Gray900}"/>
+
+                    <Button Text="{Binding LastDeviceName, StringFormat='Reconnect to {0}'}"
+                            Command="{Binding ConnectLastCommand}"
+                            IsVisible="{Binding HasLastDevice}"
+                            FontSize="13"
+                            HeightRequest="44"
+                            CornerRadius="8"
+                            Margin="0,8,0,0"/>
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       IsVisible="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Parameters -->
+            <Border Stroke="{StaticResource Gray300}"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                    Padding="16">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavToParametersCommand}" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout>
+                        <Label Text="Parameters (PIDs)" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding ParametersSummary}" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Column="1" Text="›" FontSize="24" VerticalOptions="Center" TextColor="{StaticResource Gray500}"/>
+                </Grid>
+            </Border>
+
+            <!-- Live values -->
+            <Border Stroke="{StaticResource Gray300}"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                    Padding="16"
+                    IsVisible="{Binding IsConnected}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Live Data"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray500}"/>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding LiveValues}" Spacing="6">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="local:ObdLiveValue">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding Name}" FontSize="13"/>
+                                    <Label Grid.Column="1" Text="{Binding Value}" FontSize="13" FontAttributes="Bold"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Scan -->
+            <Border Stroke="{StaticResource Gray300}"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                    Padding="16"
+                    IsVisible="{Binding IsDisconnected}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Find Adapter"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray500}"/>
+
+                    <!-- a segmented row rather than a Picker: two or three choices read better side by side -->
+                    <Border StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Primary}"
+                            Padding="0">
+                        <FlexLayout BindableLayout.ItemsSource="{Binding Transports}"
+                                    Direction="Row">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="local:ObdTransportOption">
+                                    <Button Text="{Binding Name}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ObdViewModel}}, Path=SelectTransportCommand}"
+                                            CommandParameter="{Binding .}"
+                                            CornerRadius="0"
+                                            FontSize="13"
+                                            HeightRequest="44"
+                                            Padding="4,0"
+                                            FlexLayout.Grow="1"
+                                            FlexLayout.Basis="0">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
+                                                <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </Border>
+
+                    <Button Text="{Binding ScanText}"
+                            Command="{Binding ToggleScanCommand}"
+                            FontSize="13"
+                            HeightRequest="44"
+                            CornerRadius="8"/>
+
+                    <ActivityIndicator IsRunning="{Binding IsScanning}"
+                                       IsVisible="{Binding IsScanning}"
+                                       Color="{StaticResource Primary}"/>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Devices}" Spacing="8">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="local:ObdDeviceItem">
+                                <Border Stroke="{StaticResource Gray300}"
+                                        StrokeShape="RoundRectangle 8"
+                                        Padding="12">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ObdViewModel}}, Path=ConnectCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Id}" FontSize="11" TextColor="{StaticResource Gray500}"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

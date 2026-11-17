@@ -115,6 +115,13 @@
                     TextColor="{StaticResource Gray900}"/>
         </Grid>
     
+        <!-- OBD -->
+        <Button Text="🚗 OBD Engine Data"
+                Command="{Binding NavToObdCommand}"
+                FontSize="13"
+                HeightRequest="44"
+                CornerRadius="8"/>
+
         <!-- Clear Data -->
         <Button Text="🗑️ Clear All Logs"
                 Command="{Binding ClearLogsCommand}"

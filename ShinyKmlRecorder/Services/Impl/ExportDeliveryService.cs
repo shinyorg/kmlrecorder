@@ -72,9 +72,12 @@ public class ExportDeliveryService : IExportDeliveryService
         using var fileStream = File.OpenRead(filePath);
         using var content = new StreamContent(fileStream);
 
-        content.Headers.ContentType = new MediaTypeHeaderValue(format == ExportFormat.Kml
-            ? "application/vnd.google-earth.kml+xml"
-            : "application/geo+json");
+        content.Headers.ContentType = new MediaTypeHeaderValue(format switch
+        {
+            ExportFormat.Kml => "application/vnd.google-earth.kml+xml",
+            ExportFormat.Csv => "text/csv",
+            _ => "application/geo+json"
+        });
 
         using var request = new HttpRequestMessage(HttpMethod.Put, blobUrl);
         request.Content = content;
