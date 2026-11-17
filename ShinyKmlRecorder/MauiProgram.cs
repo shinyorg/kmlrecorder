@@ -20,7 +20,6 @@ public static class MauiProgram
                 .AddGeneratedMaps()
                 .UseUxDiversDialogs()
             )
-            .AddAppSupport()
             .UseShinyControls(x => x.AddDefaultMauiControlFeedback())
             .UseSkiaSharp() // Mapsui renders the trip map with SkiaSharp
             .ConfigureFonts(fonts =>
@@ -30,10 +29,6 @@ public static class MauiProgram
             });
 
         builder.Services.AddShinyStores();
-
-        // TODO: remove with Shiny.Extensions.Serialization 6.0.2 - 6.0.1 cannot serialize nullable primitives
-        // with a value once any context is registered, which breaks LogService's Guid?/DateTimeOffset? [Bind] stores
-        builder.Services.AddJsonContext(AppJsonContext.Default);
         
         builder.Services.AddDocumentStore(opts =>
         {
@@ -68,8 +63,6 @@ public static class MauiProgram
 
 
 [JsonSerializable(typeof(LogRecord))]
-[JsonSerializable(typeof(Guid?))]
-[JsonSerializable(typeof(DateTimeOffset?))]
 [JsonSerializable(typeof(ObdSession))]
 [JsonSerializable(typeof(ObdRecord))]
 public partial class AppJsonContext : JsonSerializerContext;

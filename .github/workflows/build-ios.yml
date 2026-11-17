@@ -18,9 +18,9 @@ concurrency:
   cancel-in-progress: true
   
 env:
-  XCODE_VERSION: 26.6.0
+  XCODE_VERSION: 27.2.0
   DOTNET_TFM: 'net10.0'
-  DOTNET_VERSION: '10.0.300'
+  DOTNET_VERSION: '10.0.404'
   APP_PROJECT: './ShinyKmlRecorder/ShinyKmlRecorder.csproj'
   APP_VERSION: '1.0'
   PACKAGE_NAME: 'org.shiny.kmlrecorder'
@@ -29,7 +29,7 @@ env:
 jobs:
   build:
 #    runs-on: [self-hosted, macOS]
-    runs-on: macos-26
+    runs-on: xcode-27
     
     steps:
     - name: '✅ Checkout'

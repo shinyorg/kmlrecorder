@@ -108,7 +108,7 @@ Every package the app references directly. Exact versions live in [ShinyKmlRecor
 | Package | Version | Platforms | Used for |
 |---|---|---|---|
 | [Shiny.Locations](https://www.nuget.org/packages/Shiny.Locations) | 6.6.0 | iOS, Android | Background GPS with minimum/maximum distance and time filters (`GpsDelegate`) |
-| [Shiny.Hosting.Maui](https://www.nuget.org/packages/Shiny.Hosting.Maui) | 6.6.0 | iOS, Android | Shiny hosting, lifecycle and the Android foreground service |
+| [Shiny.Hosting.Maui](https://www.nuget.org/packages/Shiny.Hosting.Maui) | 6.6.0 | iOS, Android | Shiny hosting, lifecycle, the Android foreground service and `IPlatform` (app version, opening app settings) |
 | [Shiny.BluetoothLE](https://www.nuget.org/packages/Shiny.BluetoothLE) | 6.6.0 | iOS, Android | The BLE radio behind BLE OBD adapters |
 | [Shiny.Bluetooth](https://www.nuget.org/packages/Shiny.Bluetooth) | 6.6.0 | Android | Classic Bluetooth (RFCOMM/SPP) for ELM327 v1.5 and OBDLink LX style adapters |
 
@@ -127,10 +127,9 @@ Every package the app references directly. Exact versions live in [ShinyKmlRecor
 |---|---|---|---|
 | [Shiny.DocumentDb.Sqlite](https://www.nuget.org/packages/Shiny.DocumentDb.Sqlite) | 14.2.0 | iOS, Android | On-device document store for GPS logs, OBD sessions and samples (via Microsoft.Data.Sqlite) |
 | [SQLitePCLRaw.bundle_e_sqlite3](https://www.nuget.org/packages/SQLitePCLRaw.bundle_e_sqlite3) | 2.1.14 | iOS, Android | Pinned native SQLite — the 2.1.11 that Microsoft.Data.Sqlite pulls in has a known vulnerability ([GHSA-2m69-gcr7-jv3q](https://github.com/advisories/GHSA-2m69-gcr7-jv3q)) |
-| [Shiny.Extensions.DependencyInjection](https://www.nuget.org/packages/Shiny.Extensions.DependencyInjection) | 6.0.1 | iOS, Android | Attribute-driven DI registration (`[Singleton]`) with source generators |
-| [Shiny.Extensions.Stores](https://www.nuget.org/packages/Shiny.Extensions.Stores) | 6.0.1 | iOS, Android | Persisted settings bound to properties (`[Bind]`) |
-| [Shiny.Extensions.Serialization](https://www.nuget.org/packages/Shiny.Extensions.Serialization) | 6.0.1 | iOS, Android | The shared AOT-safe JSON serializer behind the stores |
-| [Shiny.Extensions.MauiHosting](https://www.nuget.org/packages/Shiny.Extensions.MauiHosting) | 5.3.1 | iOS, Android | App support services — version info, opening app settings |
+| [Shiny.Extensions.DependencyInjection](https://www.nuget.org/packages/Shiny.Extensions.DependencyInjection) | 6.0.2 | iOS, Android | Attribute-driven DI registration (`[Singleton]`) with source generators |
+| [Shiny.Extensions.Stores](https://www.nuget.org/packages/Shiny.Extensions.Stores) | 6.0.2 | iOS, Android | Persisted settings bound to properties (`[Bind]`) |
+| [Shiny.Extensions.Serialization](https://www.nuget.org/packages/Shiny.Extensions.Serialization) | 6.0.2 | iOS, Android | The shared AOT-safe JSON serializer behind the stores |
 | [Microsoft.Extensions.Logging.Debug](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Debug) | 10.0.15 | Debug builds | Debug output logging |
 
 ### Android Auto

@@ -6,17 +6,17 @@ namespace ShinyKmlRecorder;
 [ShellMap<MainPage>(registerRoute: false)]
 public partial class MainViewModel(
     BaseServices services,
-    IAppSupport appSupport,
+    IPlatform platform,
     IGpsManager gpsManager
 ) : ObservableObject, IPageLifecycleAware
 {
-    public string AppVersion => appSupport.AppVersion.ToString();
+    public string AppVersion => platform.AppVersion.ToString();
     [ObservableProperty] public partial string ActionText { get; private set; }
     [ObservableProperty] public partial AccessState GpsAccess { get; private set; }
     [ObservableProperty] public partial bool IsGpsActive { get; private set; }
     [ObservableProperty] public partial DateTimeOffset? DateCheckedIn { get; private set; }
 
-    [RelayCommand] void OpenAppSettings() => appSupport.OpenAppSettings();
+    [RelayCommand] void OpenAppSettings() => platform.OpenAppSettings();
     [RelayCommand] Task NavToLogs() => services.Navigator.NavigateToLogs();
     [RelayCommand] Task NavToTrips() => services.Navigator.NavigateToTrips();
     [RelayCommand] Task NavToSettings() => services.Navigator.NavigateToSettings();
