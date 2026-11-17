@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KML Recorder — every trip, every engine reading</title>
+    <meta name="description" content="A .NET MAUI app for iOS and Android that records your trips as KML and GeoJSON and, with an OBD-II adapter over Bluetooth LE, classic Bluetooth or WiFi, records your engine data alongside them.">
+    <meta name="theme-color" content="#1c1238">
+    <meta property="og:title" content="KML Recorder — every trip, every engine reading">
+    <meta property="og:description" content="Record GPS trips as KML or GeoJSON, and engine data from any OBD-II adapter - speed, RPM, odometer and 30+ more - exported as CSV or straight onto the map.">
+    <meta property="og:url" content="https://shinyorg.github.io/kmlrecorder/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://shinyorg.github.io/kmlrecorder/screenshots/obd-live.png">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/svg+xml" href="appicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- the hero, on the icon's purple night -->
+<header class="hero">
+    <div class="glow glow-purple"></div>
+    <div class="glow glow-green"></div>
+    <div class="glow glow-lime"></div>
+
+    <nav class="nav wrap">
+        <a class="brand" href="#">
+            <img src="appicon.svg" alt="" width="34" height="34">
+            <span>KML Recorder</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#obd">OBD-II</a>
+            <a href="#export">Export</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#stack">Tech stack</a>
+            <a class="nav-cta" href="#get">Get it</a>
+        </div>
+    </nav>
+
+    <div class="hero-grid wrap">
+        <div class="hero-copy">
+            <p class="eyebrow">Free &amp; open source · iOS · Android</p>
+            <h1>Every trip, mapped.<br><span class="gradient-text">Every engine reading, recorded.</span></h1>
+            <p class="lede">
+                Check in and KML Recorder follows the road - GPS, speed and battery, grouped by trip and exported as KML
+                or GeoJSON. Plug in an OBD-II adapter and it records the engine too: speed, RPM, odometer, temperatures
+                and more, pinned to where you were when you read them.
+            </p>
+            <div class="hero-actions">
+                <a class="button primary" href="#get">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+                    Get KML Recorder
+                </a>
+                <a class="button ghost" href="https://github.com/shinyorg/kmlrecorder">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-phones">
+            <figure class="phone back" data-zoom><img src="screenshots/home.png" alt="The home screen, checked in to a trip with GPS tracking active" width="720" height="1600"></figure>
+            <figure class="phone front" data-zoom><img src="screenshots/obd-live.png" alt="Live engine data streaming from an OBDLink adapter while recording" width="720" height="1600"></figure>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- the headline features, each with its picture -->
+    <section id="features" class="section">
+        <div class="wrap">
+            <p class="section-eyebrow">Built for the road</p>
+            <h2>Record the trip. Record the car.</h2>
+            <p class="section-lede">One tap to check in, and everything from then on is grouped into a trip - ready to drop onto a map.</p>
+
+            <article class="showcase">
+                <div class="showcase-copy">
+                    <h3>GPS trips, one tap away</h3>
+                    <p>Check in and the app records every reading - latitude, longitude, accuracy, speed and time - until you check out. It keeps going with the screen off, from a foreground service on Android and background location on iOS.</p>
+                    <ul class="ticks">
+                        <li>Each check-in becomes its own <strong>trip</strong> - see it on an <strong>OpenStreetMap</strong> map, export it on its own or with the rest</li>
+                        <li><strong>Battery level, charge state and energy saver</strong> recorded beside every point</li>
+                        <li>Minimum distance and time filters keep the track clean; maximums make sure a long stop still shows up</li>
+                    </ul>
+                </div>
+                <figure class="phone" data-zoom><img src="screenshots/home.png" alt="The home screen while checked in" loading="lazy" width="720" height="1600"></figure>
+            </article>
+
+            <article class="showcase flip" id="obd">
+                <div class="showcase-copy">
+                    <span class="chip">New</span>
+                    <h3>Engine data from any OBD-II adapter</h3>
+                    <p>Scan, pick your adapter and connect. KML Recorder reads the vehicle's supported PIDs and its VIN, then streams the parameters you chose - and records them while you drive, tied to your GPS trip.</p>
+                    <div class="formats">
+                        <span class="format">Bluetooth LE</span><span class="format">Classic Bluetooth</span><span class="format">WiFi</span>
+                        <span class="format">ELM327</span><span class="format">OBDLink (STN)</span>
+                    </div>
+                    <ul class="ticks">
+                        <li><strong>Reconnects</strong> to the last adapter with one tap, protocol pinned so there's no slow search</li>
+                        <li>Every sample carries the <strong>GPS position</strong> it was read at, when you're checked in</li>
+                        <li>A PID the car doesn't answer is left out of that sample - never recorded as zero</li>
+                        <li>Notices when an adapter stops answering and re-initialises it on its own</li>
+                    </ul>
+                    <p class="note">Classic Bluetooth adapters (ELM327 v1.5 clones, OBDLink LX) work on Android; iOS uses BLE or WiFi adapters.</p>
+                </div>
+                <figure class="phone" data-zoom><img src="screenshots/obd-live.png" alt="Live data: speed, RPM, odometer, coolant, load, throttle, fuel, intake air, voltage and air flow" loading="lazy" width="720" height="1600"></figure>
+            </article>
+
+            <article class="showcase">
+                <div class="showcase-copy">
+                    <span class="chip">New</span>
+                    <h3>Pick the PIDs you care about</h3>
+                    <p>Start with a sensible default set, then switch on any of 37 parameters - fuel trims, oil temperature, boost, torque, EGR and more. Once you're connected, each one says whether your car supports it.</p>
+                    <div class="formats">
+                        <span class="format rw">Speed</span><span class="format rw">RPM</span><span class="format rw">Odometer</span><span class="format rw">Coolant</span><span class="format rw">Engine load</span>
+                        <span class="format rw">Throttle</span><span class="format rw">Fuel level</span><span class="format rw">Intake air</span><span class="format rw">Voltage</span><span class="format rw">Mass air flow</span>
+                    </div>
+                    <p class="note"><span class="dot rw"></span>on by default</p>
+                    <ul class="ticks">
+                        <li>Unsupported PIDs are skipped automatically, so the poll stays fast</li>
+                        <li>Choose how often to poll, from every second to every five minutes</li>
+                    </ul>
+                </div>
+                <figure class="phone" data-zoom><img src="screenshots/obd-parameters.png" alt="The parameter list with switches and per-PID support" loading="lazy" width="720" height="1600"></figure>
+            </article>
+
+            <article class="showcase flip" id="export">
+                <div class="showcase-copy">
+                    <h3>Export it your way</h3>
+                    <p>Trips export as KML or GeoJSON. Engine sessions export as CSV - one row per sample, one column per PID - or as KML with the engine readings attached to every point on the track.</p>
+                    <div class="formats">
+                        <span class="format rw">KML 2.2</span><span class="format rw">GeoJSON</span><span class="format rw">CSV</span>
+                    </div>
+                    <ul class="ticks">
+                        <li>Open an OBD export in <strong>Google Earth</strong> and tap any point to see what the engine was doing there</li>
+                        <li>Deliver to the <strong>share sheet</strong>, <strong>email</strong>, <strong>Azure Blob Storage</strong> or keep it on the device</li>
+                        <li>Export one trip or all of them</li>
+                    </ul>
+                </div>
+                <figure class="phone" data-zoom><img src="screenshots/obd-sessions.png" alt="Recorded OBD sessions, each with its sample count and vehicle" loading="lazy" width="720" height="1600"></figure>
+            </article>
+        </div>
+    </section>
+
+    <!-- the rest, as a grid -->
+    <section class="section tinted">
+        <div class="wrap">
+            <p class="section-eyebrow">And there's more</p>
+            <h2>Wherever you are in the car</h2>
+            <div class="grid">
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    <h4>Apple CarPlay</h4>
+                    <p>Start and stop recording from the dashboard, with the button tracking the recording state live.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M5 17h14l-1.5-6.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>
+                    <h4>Android Auto</h4>
+                    <p>The same start/stop control on Android Auto, built on the AndroidX Car App library.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="3"/><path d="M10 7h4"/></svg>
+                    <h4>Home screen widgets</h4>
+                    <p>Recording or stopped, how long for, and a one-tap toggle - on iOS and Android.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><rect x="7" y="6" width="10" height="12" rx="3"/><path d="M9 6V3h6v3M9 18v3h6v-3"/></svg>
+                    <h4>Apple Watch</h4>
+                    <p>A native watchOS companion shows the trip and checks you in or out from your wrist.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 11v2M7 10v4M11 10v4"/></svg>
+                    <h4>Battery aware</h4>
+                    <p>Charge level, charging state and energy saver are captured with every point, so you can see what a trip cost.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/><path d="m17 15 3 3-3 3"/></svg>
+                    <h4>Clean tracks</h4>
+                    <p>Minimum and maximum distance and time filters decide which readings are worth keeping.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+                    <h4>Stays on your phone</h4>
+                    <p>Everything is stored in SQLite on the device. Nothing leaves it until you export.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+                    <h4>Knows your car</h4>
+                    <p>Reads the VIN and the PIDs your vehicle supports on every connect, so a session is labelled with the car it came from.</p>
+                </div>
+                <div class="card">
+                    <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+                    <h4>Native and fast</h4>
+                    <p>.NET MAUI with ahead-of-time compilation on iOS - a native app, not a web view.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- every picture -->
+    <section id="gallery" class="section">
+        <div class="wrap">
+            <p class="section-eyebrow">Gallery</p>
+            <h2>Have a look around</h2>
+            <div class="gallery">
+                <figure class="phone" data-zoom><img src="screenshots/home.png" alt="Home" loading="lazy" width="720" height="1600"><figcaption>Check in</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/obd-live.png" alt="Live OBD data" loading="lazy" width="720" height="1600"><figcaption>Live engine data</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/obd-scan.png" alt="Finding an adapter" loading="lazy" width="720" height="1600"><figcaption>Find an adapter</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/obd-parameters.png" alt="PID selection" loading="lazy" width="720" height="1600"><figcaption>Choose PIDs</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/obd-sessions.png" alt="OBD sessions" loading="lazy" width="720" height="1600"><figcaption>OBD sessions</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/logs.png" alt="GPS log" loading="lazy" width="720" height="1600"><figcaption>Every reading</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/trips.png" alt="Trips" loading="lazy" width="720" height="1600"><figcaption>Trips</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/trip-map.png" alt="A trip drawn on OpenStreetMap" loading="lazy" width="720" height="1600"><figcaption>Trip map</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/export.png" alt="Export" loading="lazy" width="720" height="1600"><figcaption>Export</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/settings.png" alt="GPS settings" loading="lazy" width="720" height="1600"><figcaption>GPS filters</figcaption></figure>
+                <figure class="phone" data-zoom><img src="screenshots/dark.png" alt="Dark mode" loading="lazy" width="720" height="1600"><figcaption>Dark mode</figcaption></figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- what it's built with -->
+    <section id="stack" class="section tinted">
+        <div class="wrap">
+            <p class="section-eyebrow">Under the hood</p>
+            <h2>The tech stack</h2>
+            <p class="section-lede">C# and .NET 10 from top to bottom - one .NET MAUI code base, native on iOS and Android, with Swift only where Apple requires it.</p>
+            <div class="stack">
+                <div class="stack-group">
+                    <h4>Language &amp; runtime</h4>
+                    <ul>
+                        <li><a href="https://dotnet.microsoft.com/">.NET 10</a><span>the runtime, AOT compiled on iOS</span></li>
+                        <li><a href="https://learn.microsoft.com/dotnet/csharp/">C#</a><span>the app, services and platform code</span></li>
+                        <li><a href="https://learn.microsoft.com/dotnet/maui/xaml/">XAML</a><span>the pages, source generated</span></li>
+                        <li><a href="https://www.swift.org/">Swift &amp; SwiftUI</a><span>the iOS widget and Apple Watch app</span></li>
+                    </ul>
+                </div>
+                <div class="stack-group">
+                    <h4>UI &amp; navigation</h4>
+                    <ul>
+                        <li><a href="https://github.com/dotnet/maui">.NET MAUI</a><span>the shared UI</span></li>
+                        <li><a href="https://github.com/Mapsui/Mapsui">Mapsui + OpenStreetMap</a><span>the trip map - no API key needed</span></li>
+                        <li><a href="https://github.com/shinyorg/mauishell">Shiny MAUI Shell</a><span>ViewModel-first navigation</span></li>
+                        <li><a href="https://github.com/shinyorg/controls">Shiny Controls</a><span>table views, settings cells, feedback</span></li>
+                        <li><a href="https://github.com/CommunityToolkit/dotnet">CommunityToolkit.Mvvm</a><span>view models</span></li>
+                    </ul>
+                </div>
+                <div class="stack-group">
+                    <h4>Location &amp; devices</h4>
+                    <ul>
+                        <li><a href="https://github.com/shinyorg/shiny">Shiny.Locations</a><span>background GPS with distance and time filters</span></li>
+                        <li><a href="https://github.com/shinyorg/shiny">Shiny.BluetoothLE · Shiny.Bluetooth</a><span>BLE and classic Bluetooth radios</span></li>
+                        <li><a href="https://github.com/shinyorg/shiny">Shiny.Hosting.Maui</a><span>background services and lifecycle</span></li>
+                    </ul>
+                </div>
+                <div class="stack-group">
+                    <h4>Vehicle</h4>
+                    <ul>
+                        <li><a href="https://github.com/shinyorg/obd">Shiny.Obd</a><span>OBD-II commands, ELM327 &amp; OBDLink detection</span></li>
+                        <li><a href="https://github.com/shinyorg/obd">Shiny.Obd.Ble · .Bluetooth · .Wifi</a><span>the three adapter transports</span></li>
+                        <li><a href="https://github.com/shinyorg/obd">Shiny.Obd.Emulator</a><span>a virtual adapter for testing - and these screenshots</span></li>
+                    </ul>
+                </div>
+                <div class="stack-group">
+                    <h4>Data &amp; app plumbing</h4>
+                    <ul>
+                        <li><a href="https://github.com/shinyorg/DocumentDb">Shiny.DocumentDb.Sqlite</a><span>on-device storage for trips and OBD samples</span></li>
+                        <li><a href="https://github.com/shinyorg/extensions">Shiny Extensions</a><span>DI, persisted settings, AOT-safe JSON</span></li>
+                        <li><a href="https://github.com/dotnet/runtime">System.Text.Json</a><span>GeoJSON, source generated</span></li>
+                    </ul>
+                </div>
+                <div class="stack-group">
+                    <h4>In the car</h4>
+                    <ul>
+                        <li><a href="https://developer.apple.com/carplay/">CarPlay</a><span>the dashboard recording control</span></li>
+                        <li><a href="https://developer.android.com/training/cars">AndroidX Car App</a><span>Android Auto</span></li>
+                        <li><a href="https://developer.apple.com/documentation/watchconnectivity">WatchConnectivity · WidgetKit</a><span>watch and home screen</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- getting it -->
+    <section id="get" class="section download">
+        <div class="glow glow-purple"></div>
+        <div class="wrap">
+            <img class="download-icon" src="appicon.svg" alt="" width="96" height="96">
+            <h2>Get KML Recorder</h2>
+            <p class="section-lede">Free and open source. Build it for your phone from the source on GitHub.</p>
+            <div class="platforms">
+                <a class="platform" href="https://github.com/shinyorg/kmlrecorder">
+                    <svg viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.2 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg>
+                    <strong>iOS</strong>
+                    <span>iPhone · CarPlay · widget · Apple Watch</span>
+                </a>
+                <a class="platform" href="https://github.com/shinyorg/kmlrecorder">
+                    <svg viewBox="0 0 24 24"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4 10v6M20 10v6M8 8a4 4 0 0 1 8 0zM9 4 8 2.5M15 4l1-1.5"/></svg>
+                    <strong>Android</strong>
+                    <span>Phones · Android Auto · widget</span>
+                </a>
+            </div>
+            <p class="small">Needs an OBD-II adapter for engine data - any ELM327 or OBDLink over Bluetooth LE, classic Bluetooth or WiFi.</p>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="wrap footer-row">
+        <div class="brand small-brand">
+            <img src="appicon.svg" alt="" width="24" height="24">
+            <span>KML Recorder</span>
+        </div>
+        <p>Free &amp; open source · <a href="#stack">Tech stack</a> · <a href="https://github.com/shinyorg/kmlrecorder">Source on GitHub</a></p>
+    </div>
+    <div class="wrap made-by">
+        <span>Built by</span>
+        <img src="shinysoft-logo.png" alt="ShinySoft Technologies" width="200" height="68">
+    </div>
+</footer>
+
+<div class="lightbox" hidden>
+    <button class="lightbox-close" aria-label="Close">×</button>
+    <img alt="">
+</div>
+
+<script src="site.js"></script>
+</body>
+</html>

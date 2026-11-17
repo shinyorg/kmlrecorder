@@ -4,7 +4,17 @@
   <img src="logo.svg" alt="Shiny KML Recorder" width="128" height="128">
 </p>
 
+<p align="center">
+  <a href="https://shinyorg.github.io/kmlrecorder/"><strong>🌐 Product website</strong></a> ·
+  <a href="#libraries">Libraries</a> ·
+  <a href="#testing-without-a-car">Testing without a car</a>
+</p>
+
 A .NET MAUI mobile application for iOS and Android that records GPS coordinates and exports them as **KML** or **GeoJSON** files. Track your trips with check-in/check-out sessions, monitor battery and GPS data, and deliver exports via email, Azure Blob Storage, system share, or local storage. Also supports **Apple CarPlay** and **Android Auto** for hands-free recording control.
+
+Plug in an **OBD-II adapter** (Bluetooth LE, classic Bluetooth or WiFi) and it records engine data too — speed, RPM, odometer and 30+ more PIDs — exported as **CSV** or as **KML** with the readings pinned to the track.
+
+**Website:** [shinyorg.github.io/kmlrecorder](https://shinyorg.github.io/kmlrecorder/) — features, screenshots and the tech stack.
 
 ## Features
 
@@ -29,6 +39,13 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 - **Email** — Attach the file to an email using the platform email service
 - **Share** — Open the system share dialog
 - **Azure Blob Storage** — Upload via PUT request with a SAS token (auto-detects content type)
+
+### OBD-II Engine Data
+- Scan for and connect to ELM327 / OBDLink adapters over **Bluetooth LE**, **classic Bluetooth** (Android) or **WiFi**, via [Shiny.Obd](https://github.com/shinyorg/obd)
+- Reads the vehicle's supported PIDs and VIN on connect; one-tap reconnect to the last adapter with the negotiated protocol pinned
+- Choose from 37 PIDs, with a default set of speed, RPM, odometer, coolant temperature, engine load, throttle, fuel level, intake air temperature, module voltage and mass air flow; unsupported PIDs are skipped automatically
+- Configurable poll interval; recordings capture the current GPS position with every sample when checked in
+- Sessions export as **CSV** (one column per PID) or **KML** (engine readings as ExtendedData on every point), through the same delivery methods as GPS exports
 
 ### Battery & System Monitoring
 - Tracks battery level, charge state (Charging / Discharging / Not Charging / Full / Unknown), and energy saver status alongside every GPS reading
@@ -66,24 +83,121 @@ A .NET MAUI mobile application for iOS and Android that records GPS coordinates 
 | **Logs** | Displays all recorded GPS points with timestamps, coordinates, accuracy, battery level, and energy saver status |
 | **Export** | Shows GPS point count, export status summary, Export Now button, and Open Export Folder |
 | **Export Settings** | Configure trip selection, export format (KML / GeoJSON), delivery method, Azure Blob credentials, and email settings; includes a Reset option |
+| **Trip Map** | A trip's route on OpenStreetMap (via Mapsui), with start and end markers |
+| **OBD** | Choose a transport, scan for adapters, connect, start/stop recording and watch live engine data |
+| **OBD Parameters** | Pick the PIDs to record (with per-vehicle support shown once connected) and the poll interval |
+| **OBD Sessions** | Recorded engine sessions — export as CSV or KML, or delete |
 
-## Third-Party Libraries
+## Libraries
 
-| Package | Version | Description | Documentation |
+Every package the app references directly. Exact versions live in [ShinyKmlRecorder.csproj](ShinyKmlRecorder/ShinyKmlRecorder.csproj) (`MauiVersion`, `ShinyVersion` and `ShinyObdVersion` set most of them).
+
+### UI & navigation
+
+| Package | Version | Platforms | Used for |
 |---|---|---|---|
-| [CommunityToolkit.Mvvm](https://www.nuget.org/packages/CommunityToolkit.Mvvm) | 8.4.0 | MVVM source generators and helpers (`[ObservableProperty]`, `[RelayCommand]`) | [Docs](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/) |
-| [Microsoft.Maui.Controls](https://www.nuget.org/packages/Microsoft.Maui.Controls) | 10.0.30 | .NET MAUI UI framework | [Docs](https://learn.microsoft.com/en-us/dotnet/maui/) |
-| [Microsoft.Extensions.Logging.Debug](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Debug) | 10.0.0 | Debug output logging provider | [Docs](https://learn.microsoft.com/en-us/dotnet/core/extensions/logging) |
-| [Sentry.Maui](https://www.nuget.org/packages/Sentry.Maui) | 6.1.0 | Error tracking and performance monitoring | [Docs](https://docs.sentry.io/platforms/dotnet/guides/maui/) |
-| [Shiny.Hosting.Maui](https://www.nuget.org/packages/Shiny.Hosting.Maui) | 4.0.0-beta-0095 | Shiny platform hosting for MAUI | [Docs](https://shinylib.net/) |
-| [Shiny.Locations](https://www.nuget.org/packages/Shiny.Locations) | 4.0.0-beta-0095 | GPS manager, readings, and location requests | [Docs](https://shinylib.net/client/locations/gps/) |
-| [Shiny.Maui.Shell](https://www.nuget.org/packages/Shiny.Maui.Shell) | 2.0.0 | Shell navigation and source-generated route mapping | [Docs](https://github.com/shinyorg/mauishell) |
-| [Shiny.Extensions.DependencyInjection](https://www.nuget.org/packages/Shiny.Extensions.DependencyInjection) | 1.3.1 | Attribute-driven DI registration with source generators | [Docs](https://github.com/shinyorg/extensions) |
-| [Shiny.Reflector](https://www.nuget.org/packages/Shiny.Reflector) | 1.7.1 | AOT-compliant source-generated reflection utilities | [Docs](https://github.com/shinyorg/reflector) |
-| [sqlite-net-pcl](https://www.nuget.org/packages/sqlite-net-pcl) | 1.10.196-beta | Lightweight SQLite ORM for .NET | [Docs](https://github.com/praeclarum/sqlite-net) |
-| [SQLitePCLRaw.bundle_e_sqlite3](https://www.nuget.org/packages/SQLitePCLRaw.bundle_e_sqlite3) | 3.0.2 | Native SQLite provider (Android) | [Docs](https://github.com/ericsink/SQLitePCL.raw) |
-| [Xamarin.AndroidX.Car.App.App](https://www.nuget.org/packages/Xamarin.AndroidX.Car.App.App) | 1.7.0.2 | Android Auto Car App UI library | [Docs](https://developer.android.com/training/cars) |
-| [Xamarin.AndroidX.Lifecycle.LiveData.Core](https://www.nuget.org/packages/Xamarin.AndroidX.Lifecycle.LiveData.Core) | 2.10.0.1 | AndroidX lifecycle-aware LiveData components | [Docs](https://developer.android.com/topic/libraries/architecture/livedata) |
+| [Microsoft.Maui.Controls](https://www.nuget.org/packages/Microsoft.Maui.Controls) | 10.0.100 | iOS, Android | The .NET MAUI UI framework |
+| [Shiny.Maui.Shell](https://www.nuget.org/packages/Shiny.Maui.Shell) | 7.0.3 | iOS, Android | ViewModel-first Shell navigation with source-generated routes (`[ShellMap]`) |
+| [Shiny.Maui.Shell.UxDiversDialogs](https://www.nuget.org/packages/Shiny.Maui.Shell.UxDiversDialogs) | 7.0.3 | iOS, Android | Alert, confirm and action-sheet dialogs (built on [UXDivers Popups](https://www.nuget.org/packages/UXDivers.Popups.Maui)) |
+| [Shiny.Maui.Controls](https://www.nuget.org/packages/Shiny.Maui.Controls) | 2.5.0 | iOS, Android | `TableView` settings cells (number pickers, switches, buttons) and control feedback |
+| [Mapsui.Maui](https://www.nuget.org/packages/Mapsui.Maui) | 5.1.0 | iOS, Android | The trip map, on [OpenStreetMap](https://www.openstreetmap.org/copyright) tiles — no API key. Brings SkiaSharp, BruTile and NetTopologySuite with it |
+| [CommunityToolkit.Mvvm](https://www.nuget.org/packages/CommunityToolkit.Mvvm) | 8.4.2 | iOS, Android | `[ObservableProperty]` / `[RelayCommand]` view-model source generators |
+
+### Location, Bluetooth & background
+
+| Package | Version | Platforms | Used for |
+|---|---|---|---|
+| [Shiny.Locations](https://www.nuget.org/packages/Shiny.Locations) | 6.6.0 | iOS, Android | Background GPS with minimum/maximum distance and time filters (`GpsDelegate`) |
+| [Shiny.Hosting.Maui](https://www.nuget.org/packages/Shiny.Hosting.Maui) | 6.6.0 | iOS, Android | Shiny hosting, lifecycle and the Android foreground service |
+| [Shiny.BluetoothLE](https://www.nuget.org/packages/Shiny.BluetoothLE) | 6.6.0 | iOS, Android | The BLE radio behind BLE OBD adapters |
+| [Shiny.Bluetooth](https://www.nuget.org/packages/Shiny.Bluetooth) | 6.6.0 | Android | Classic Bluetooth (RFCOMM/SPP) for ELM327 v1.5 and OBDLink LX style adapters |
+
+### Vehicle (OBD-II)
+
+| Package | Version | Platforms | Used for |
+|---|---|---|---|
+| [Shiny.Obd](https://www.nuget.org/packages/Shiny.Obd) | 1.5.1 | iOS, Android | OBD-II commands, ELM327 / OBDLink detection, supported-PID discovery, protocol pinning |
+| [Shiny.Obd.Ble](https://www.nuget.org/packages/Shiny.Obd.Ble) | 1.5.1 | iOS, Android | Bluetooth LE adapter transport and scanner |
+| [Shiny.Obd.Bluetooth](https://www.nuget.org/packages/Shiny.Obd.Bluetooth) | 1.5.1 | Android | Classic Bluetooth adapter transport and scanner |
+| [Shiny.Obd.Wifi](https://www.nuget.org/packages/Shiny.Obd.Wifi) | 1.5.1 | iOS, Android | WiFi (TCP) adapter transport and scanner |
+
+### Data & app plumbing
+
+| Package | Version | Platforms | Used for |
+|---|---|---|---|
+| [Shiny.DocumentDb.Sqlite](https://www.nuget.org/packages/Shiny.DocumentDb.Sqlite) | 14.2.0 | iOS, Android | On-device document store for GPS logs, OBD sessions and samples (via Microsoft.Data.Sqlite) |
+| [SQLitePCLRaw.bundle_e_sqlite3](https://www.nuget.org/packages/SQLitePCLRaw.bundle_e_sqlite3) | 2.1.14 | iOS, Android | Pinned native SQLite — the 2.1.11 that Microsoft.Data.Sqlite pulls in has a known vulnerability ([GHSA-2m69-gcr7-jv3q](https://github.com/advisories/GHSA-2m69-gcr7-jv3q)) |
+| [Shiny.Extensions.DependencyInjection](https://www.nuget.org/packages/Shiny.Extensions.DependencyInjection) | 6.0.1 | iOS, Android | Attribute-driven DI registration (`[Singleton]`) with source generators |
+| [Shiny.Extensions.Stores](https://www.nuget.org/packages/Shiny.Extensions.Stores) | 6.0.1 | iOS, Android | Persisted settings bound to properties (`[Bind]`) |
+| [Shiny.Extensions.Serialization](https://www.nuget.org/packages/Shiny.Extensions.Serialization) | 6.0.1 | iOS, Android | The shared AOT-safe JSON serializer behind the stores |
+| [Shiny.Extensions.MauiHosting](https://www.nuget.org/packages/Shiny.Extensions.MauiHosting) | 5.3.1 | iOS, Android | App support services — version info, opening app settings |
+| [Microsoft.Extensions.Logging.Debug](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Debug) | 10.0.15 | Debug builds | Debug output logging |
+
+### Android Auto
+
+| Package | Version | Platforms | Used for |
+|---|---|---|---|
+| [Xamarin.AndroidX.Car.App.App](https://www.nuget.org/packages/Xamarin.AndroidX.Car.App.App) | 1.7.0.4 | Android | The Android Auto recording control |
+| [Xamarin.AndroidX.Lifecycle.LiveData.Core](https://www.nuget.org/packages/Xamarin.AndroidX.Lifecycle.LiveData.Core) | 2.11.0.1 | Android | Lifecycle support the Car App library needs |
+| [Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm](https://www.nuget.org/packages/Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm) | 1.11.4 | Android | Referenced alongside the Car App library with `ExcludeAssets="all"` — none of its assets ship |
+
+### Native (Swift)
+
+| Framework | Used for |
+|---|---|
+| CarPlay + MapKit | The CarPlay recording control and its route map |
+| WidgetKit + SwiftUI | The iOS home screen widget ([WidgetExtension](WidgetExtension)) |
+| WatchConnectivity + SwiftUI | The Apple Watch companion app ([WatchApp](WatchApp)) |
+
+## Testing without a car
+
+You don't need to sit in a car to work on this app. Two tools cover the parts that normally need the road.
+
+### OBD-II: the Shiny.Obd emulator
+
+[Shiny.Obd.Emulator](https://github.com/shinyorg/obd) *is* an OBD-II adapter: an ELM327-compatible bus over TCP (and BLE with `Shiny.Obd.Emulator.Ble`), with eight vehicles whose VINs decode for real and driving scenarios that play changing data into it. KML Recorder connects to it exactly as it would to a real adapter.
+
+- **Easiest:** run the emulator sample app ([samples/Sample.Maui](https://github.com/shinyorg/obd/tree/main/samples/Sample.Maui) in the obd repo) on a second phone, tablet or desktop. It advertises over BLE as `VEEPEAK` and listens on TCP port 35000, so choose **Bluetooth LE** or **WiFi** on the app's OBD page and scan.
+- **Headless:** a few lines in a console app on your dev machine. An Android emulator reaches the host at `10.0.2.2`, which the app's WiFi scan finds through the network gateway:
+
+  ```csharp
+  using Shiny.Obd.Emulator;
+
+  var config = new ObdEmulatorConfiguration { TcpPort = 35000 };
+  var dispatcher = new SynchronizationContextDispatcher(null);
+  var state = new ObdEmulatorState { Vehicle = VehicleCatalog.ToyotaCamry };
+  var host = new ObdEmulatorHost([new TcpObdServer(new Elm327Responder(state), config)], config, dispatcher);
+  await host.Start();
+
+  new DrivingScenarioPlayer(state, dispatcher) { Scenario = DrivingScenarioCatalog.CityDriving }.Start();
+  await Task.Delay(Timeout.Infinite);
+  ```
+
+  This is how the website's OBD screenshots were taken.
+- **Shareable setups:** vehicles, driving scenarios and fault states can live in JSON files described by [obd-emulator.schema.json](obd-emulator.schema.json) (the same schema is published in the obd repo). Load one with `ObdEmulatorProfile.Load(...)` and `ApplyTo(state, player)`.
+
+### GPS: replay a route with MAUI Sherpa
+
+[MAUI Sherpa](https://github.com/redth/MAUI.Sherpa) ([website](https://redth.github.io/MAUI.Sherpa/)) manages your MAUI dev environment, and its device tools include **KML/GPX route playback** onto Android emulators and iOS simulators. That closes the loop nicely: record a real drive with KML Recorder, export it as KML, and replay it into an emulator while you work on the app at your desk.
+
+1. Export a trip from the app as **KML** (or use any KML/GPX route).
+2. In MAUI Sherpa, open the emulator or simulator, pick the route file and start playback.
+3. Check in on KML Recorder — readings arrive as the route plays, and recording an OBD session against the emulator above gives you GPS-pinned engine data with no car at all.
+
+> **Recent Android emulator images:** route playback on Android uses `adb emu geo fix`. On an API 37 Google Play image it answered `OK` without moving the location; if you see that, drive Android's test location provider instead:
+>
+> ```bash
+> adb shell appops set com.android.shell android:mock_location allow
+> adb shell cmd location providers add-test-provider gps
+> adb shell cmd location providers set-test-provider-enabled gps true
+> adb shell cmd location providers set-test-provider-location gps --location 43.6532,-79.3832 --accuracy 5
+> ```
+
+## Website
+
+The product website — [shinyorg.github.io/kmlrecorder](https://shinyorg.github.io/kmlrecorder/) — lives in [website/](website), with its screenshots in [docs/screenshots](docs/screenshots). [.github/workflows/pages.yml](.github/workflows/pages.yml) deploys it to GitHub Pages on every push to `main` that touches the site, the screenshots, `logo.svg` or the ShinySoft logo, and can be run by hand from the Actions tab.
+
+Preview it locally with `website/build.sh --serve` (http://localhost:8080).
 
 ## Platform Requirements
 
