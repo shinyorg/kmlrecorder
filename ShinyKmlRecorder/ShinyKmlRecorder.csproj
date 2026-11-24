@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <BaseTargetFramework>net10.0</BaseTargetFramework>
+        <BaseTargetFramework>net11.0</BaseTargetFramework>
         <TargetFrameworks>$(BaseTargetFramework)-ios;$(BaseTargetFramework)-android</TargetFrameworks>
         <!--<TargetFrameworks Condition="'$(CI)' != 'true'">$(TargetFrameworks);$(BaseTargetFramework)</TargetFrameworks>-->
         <SingleProject>true</SingleProject>
@@ -14,9 +14,9 @@
         <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
         
-        <MauiVersion>10.0.100</MauiVersion>
-        <ShinyVersion>6.6.0</ShinyVersion>
-        <ShinyObdVersion>1.5.1</ShinyObdVersion>
+        <MauiVersion>11.0.10</MauiVersion>
+        <ShinyVersion>7.0.0</ShinyVersion>
+        <ShinyObdVersion>2.0.0</ShinyObdVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == '$(BaseTargetFramework)'">
@@ -33,7 +33,7 @@
     <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
         <DefineConstants>$(DefineConstants);PLATFORM</DefineConstants>
         <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
-        <TargetPlatformVersion>36</TargetPlatformVersion>
+        <TargetPlatformVersion>37.2</TargetPlatformVersion>
         <AndroidEnableMarshalMethods>false</AndroidEnableMarshalMethods>
     </PropertyGroup>
 
@@ -54,8 +54,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shiny.Maui.Shell" Version="7.0.3"/>
-        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="7.0.3"/>
+        <PackageReference Include="Shiny.Maui.Shell" Version="8.0.1"/>
+        <PackageReference Include="Shiny.Maui.Shell.UxDiversDialogs" Version="8.0.1"/>
         <PackageReference Include="Shiny.Maui.Controls" Version="2.5.0"/>
         <PackageReference Include="Shiny.Locations" Version="$(ShinyVersion)"/>
         <PackageReference Include="Shiny.BluetoothLE" Version="$(ShinyVersion)"/>
@@ -67,11 +67,11 @@
         <PackageReference Include="Shiny.Obd" Version="$(ShinyObdVersion)"/>
         <PackageReference Include="Shiny.Obd.Ble" Version="$(ShinyObdVersion)"/>
         <PackageReference Include="Shiny.Obd.Wifi" Version="$(ShinyObdVersion)"/>
-        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="14.2.0"/>
+        <PackageReference Include="Shiny.DocumentDb.Sqlite" Version="14.4.1"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
-        <PackageReference Include="Mapsui.Maui" Version="5.1.0"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.15" Condition="'$(Configuration)' == 'DEBUG'"/>
+        <PackageReference Include="Mapsui.Maui" Version="5.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="11.0.0" Condition="'$(Configuration)' == 'DEBUG'"/>
     </ItemGroup>
     
     <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
@@ -79,7 +79,7 @@
         <PackageReference Include="Shiny.Obd.Bluetooth" Version="$(ShinyObdVersion)"/>
         <PackageReference Include="Xamarin.AndroidX.Car.App.App" Version="1.7.0.4"/>
         <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.11.0.1"/>
-        <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.11.4" ExcludeAssets="all"/>
+        <PackageReference Include="Xamarin.AndroidX.Compose.Runtime.Annotation.Jvm" Version="1.12.1" ExcludeAssets="all"/>
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework.Contains('-android')) OR $(TargetFramework.Contains('-ios'))">
